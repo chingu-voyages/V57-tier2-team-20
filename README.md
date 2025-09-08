@@ -35,7 +35,8 @@ your repo access and to practice PR'ing with your team *before* you start
 coding!
 
 - Chinedu Olekah, Product Owner: [GitHub](https://github.com/kenako1) / [LinkedIn](https://linkedin.com/in/chinedu-olekah)
-- Ouassima EL YAKOUBI #2: [GitHub](https://github.com/ouassimaelyakoubi) / [LinkedIn](https://linkedin.com/in/ouassima-elyakoubi) 
+- Ouassima EL YAKOUBI #2: [GitHub](https://github.com/ouassimaelyakoubi) / [LinkedIn](https://linkedin.com/in/ouassima-elyakoubi)
+- Hamza EL ASSRI, UI/UX Designer : [GitHub](https://www.linkedin.com/in/hamza-elassri/) / [LinkedIn](https://github.com/Hamza-EL07)
 
    ...
 - Teammate name #n: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
