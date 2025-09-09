@@ -38,6 +38,7 @@ coding!
 - Ouassima EL YAKOUBI, Frontend Developer: [GitHub](https://github.com/ouassimaelyakoubi) / [LinkedIn](https://linkedin.com/in/ouassima-elyakoubi)
 - Hamza EL ASSRI, UI/UX Designer : [GitHub](https://github.com/Hamza-EL07) / [LinkedIn](https://www.linkedin.com/in/hamza-elassri/)
 - Ayo Alabi, ScrumMaster : [GitHub](https://github.com/AAlabi2) / [LinkedIn](https://www.linkedin.com/in/ayot/)
+- Alexander Makoveev, Frontend Developer : [GitHub](https://github.com/Alexander-NM) / [LinkedIn](www.linkedin.com/in/alexander-makoveev)
 
    ...
 - Teammate name #n: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
