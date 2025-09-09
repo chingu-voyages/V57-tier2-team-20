@@ -40,5 +40,4 @@ coding!
 - Ayo Alabi, ScrumMaster : [GitHub](https://github.com/AAlabi2) / [LinkedIn](https://www.linkedin.com/in/ayot/)
 - Alexander Makoveev, Frontend Developer : [GitHub](https://github.com/Alexander-NM) / [LinkedIn](https://www.linkedin.com/in/alexander-makoveev)
 - Nadiia Lashtun, Frontend Developer : [GitHub](https://github.com/NadiiaLashtun) / [LinkedIn](https://www.linkedin.com/in/lashtun)
-   ...
-- Teammate name #n: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
+- Ebhamen Joshua, Frontend Developer: [GitHub](https://github.com/Isaacjosh23) / [LinkedIn](https://www.linkedin.com/in/joshua-ebhamen-4904aa344?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
