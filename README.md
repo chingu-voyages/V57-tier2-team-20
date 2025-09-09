@@ -39,6 +39,6 @@ coding!
 - Hamza EL ASSRI, UI/UX Designer : [GitHub](https://github.com/Hamza-EL07) / [LinkedIn](https://www.linkedin.com/in/hamza-elassri/)
 - Ayo Alabi, ScrumMaster : [GitHub](https://github.com/AAlabi2) / [LinkedIn](https://www.linkedin.com/in/ayot/)
 - Alexander Makoveev, Frontend Developer : [GitHub](https://github.com/Alexander-NM) / [LinkedIn](https://www.linkedin.com/in/alexander-makoveev)
-
+- Nadiia Lashtun, Frontend Developer : [GitHub](https://github.com/NadiiaLashtun) / [LinkedIn](https://www.linkedin.com/in/lashtun)
    ...
 - Teammate name #n: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
