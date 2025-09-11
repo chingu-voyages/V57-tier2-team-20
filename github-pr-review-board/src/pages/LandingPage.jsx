@@ -1,5 +1,13 @@
-import Home from "../components/Home";
+import Hero from '../components/home/Hero'
+import SolutionBenefits from '../components/home/SolutionBenefits'
+import BuiltFor from '../components/home/BuiltFor'
 
 export default function LandingPage() {
-  return <Home />;
+  return(
+    <>
+      <Hero />
+      <SolutionBenefits />
+      <BuiltFor />
+    </>
+  )
 }
