@@ -4,6 +4,10 @@ html {
   font-size: 62.5%;
 }
 
+body {
+  color: #9696AA;
+}
+
 .container {
   max-width: 120rem;
   margin: 0 auto;
