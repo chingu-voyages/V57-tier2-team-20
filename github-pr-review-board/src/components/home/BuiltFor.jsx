@@ -29,7 +29,7 @@ export default function BuiltFor() {
   return (
     <section className='relative bg-background bg-[image:var(--gradient)] flex flex-wrap gap-9 justify-evenly pt-[84px] pb-12 px-3'>
       <div
-        className='max-w-[460px] space-y-6 
+        className=' space-y-6 
                       before:absolute before:top-[48px] before:left-3 before:bg-brand before:w-6 before:h-6
                       after:absolute after:top-[60px] after:left-[48px] after:right-0 after:bg-brand after:h-0.25'
       >

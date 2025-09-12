@@ -3,8 +3,8 @@ import { Icon } from "@iconify/react";
 export default function Hero() {
   return (
     <section className='bg-black py-11'>
-      <div className='text-white mx-auto my-0 py-0 px-[32px] flex flex-col items-center gap-8 max-w-[1200px]'>
-        <div className='flex flex-col gap-14 md:w-[450px] lg:w-[550px]'>
+      <div className='text-white mx-auto my-0 py-0 px-[32px] flex flex-col items-center gap-8 '>
+        <div className='flex flex-col gap-14 '>
           <h1 className='flex flex-col gap-5 text-center'>
             <span className='uppercase inline-block text-[45px] md:text-[48px] lg:text-[55px] font-bold leading-[55px] hero-gradient-text'>
               pr status board
