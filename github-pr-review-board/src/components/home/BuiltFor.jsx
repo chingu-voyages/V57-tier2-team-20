@@ -33,7 +33,7 @@ export default function BuiltFor() {
   ];
 
   return (
-    <div className='relative bg-background bg-[image:var(--gradient)] flex flex-wrap gap-9 justify-center md:justify-between pt-[84px] pb-12 px-3'>
+    <section className='relative bg-background bg-[image:var(--gradient)] flex flex-wrap gap-9 justify-center md:justify-between pt-[84px] pb-12 px-3'>
       <div
         className='max-w-[414px] space-y-6 
                       before:absolute before:top-[48px] before:left-3 before:bg-brand before:w-6 before:h-6
@@ -64,6 +64,6 @@ export default function BuiltFor() {
         className='object-contain'
         alt='Geometry image'
       />
-    </div>
+    </section>
   );
 }
