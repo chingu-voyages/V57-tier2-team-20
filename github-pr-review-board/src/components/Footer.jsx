@@ -1,10 +1,11 @@
-import { Code } from '@solar-icons/react'
+import { Icon } from "@iconify/react";
+
 export default function Footer() {
 
     return (
         <footer className="flex flex-col border-t-2 border-[#01ffff33] items-center justify-center gap-4 py-6 px-4 bg-[#141923] bg-[linear-gradient(0deg,rgba(1,255,255,0.05)_0%,rgba(1,255,255,0)_50%,rgba(1,255,255,0)_100%)] fixed bottom-0 left-0 right-0">
             <div className='flex items-center justify-center border-1 border-[#01ffff33] px-4 py-2 gap-2 hover:bg-[#01ffff33] '>
-                <Code weight="Outline" size={30} color='#00ffff' className='border-[#01ffff33] border-1 p-1 bg-[#01FFFF20] '/>
+                <Icon icon="solar:code-outline" width="24" height="24" color='#00ffff' className='border-[#01ffff33] border-1 p-1 bg-[#01FFFF20]'/>
                 <a href="https://github.com/chingu-voyages/V57-tier2-team-20" className='uppercase text-[#00ffff] tracking-wider font-extralight text-sm'>Github repository</a>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center text-white text-base/8 font-extralight md:gap-14 ">
