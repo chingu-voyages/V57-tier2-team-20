@@ -6,7 +6,7 @@ export default function LandingPage() {
   return(
     <>
       <Hero />
-      {/* <SolutionBenefits /> */}
+      <SolutionBenefits />
       <BuiltFor />
     </>
   )
