@@ -4,7 +4,6 @@ import PRList from "../components/PRList";
 import { Icon } from "@iconify/react";
 
 export default function OpenedPRs() {
-  const token = import.meta.env.VITE_GITHUB_TOKEN;
   const org = import.meta.env.VITE_GITHUB_ORG;
   const repo = import.meta.env.VITE_GITHUB_REPO;
   const state = "all";
@@ -13,7 +12,7 @@ export default function OpenedPRs() {
   //Load PR List
   const loadPRs = async () => {
     try {
-      const info = await getPullRequests(org, repo, token, state);
+      const info = await getPullRequests(org, repo, state);
 
       //Get needed fields
       const formattedPRList = info.map((pr) => ({

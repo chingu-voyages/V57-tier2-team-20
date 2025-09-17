@@ -1,27 +1,29 @@
-//List of Repo
-export async function getRepos(org, token) {
-  const url = `https://api.github.com/orgs/${org}/repos`;
-  return fetchGitHub(url, token);
-}
+import { Octokit } from "@octokit/rest";
+
+const octokit = new Octokit({
+  auth: import.meta.env.VITE_GITHUB_TOKEN,
+  headers: {
+    "X-GitHub-Api-Version": "2022-11-28",
+  },
+});
 
 // List of Pull Requests
-export async function getPullRequests(org, repo, token, state) {
-  const url = `https://api.github.com/repos/${org}/${repo}/pulls?state=${state}`;
-  return fetchGitHub(url, token);
+export async function getPullRequests(org, repo, state) {
+  return fetchAPI(`/repos/${org}/${repo}/pulls?state=all&per_page=100`);
 }
 
-async function fetchGitHub(url, token) {
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `token ${token}`,
-      Accept: "application/vnd.github+json",
-    },
-  });
+// List of Repos
+export async function getRepos(org) {
+  return fetchAPI(`/orgs/${org}/repos`);
+}
 
-  if (!response.ok) {
-    const message = await response.text();
-    throw new Error(`GitHub API Error ${response.status}: ${message}`);
+//fetch
+async function fetchAPI(url) {
+  try {
+    const response = await octokit.request(url);
+    return response.data;
+  } catch (err) {
+    console.error(`Error fetching ${url}:`, err);
+    throw err;
   }
-
-  return response.json();
 }
