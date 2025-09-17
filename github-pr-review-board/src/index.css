@@ -19,7 +19,6 @@
 
 .hero-gradient-text {
     background: linear-gradient(to right, #00ffff, #8a2be2, #ff0080);
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -34,4 +33,22 @@ body {
 
 .cta-border:hover {
     box-shadow: none;
+}
+/* Custom floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(10deg);
+  }
+}
+
+/* Utility classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float 10s ease-in-out infinite;
 }
