@@ -1,4 +1,4 @@
-import PRCard from "../components/PRCard";
+import PRCard from "./PRCard";
 
 export default function PRList({ prList }) {
   return (

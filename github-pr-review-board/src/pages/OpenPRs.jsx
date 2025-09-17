@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getPullRequests, getRepos } from "../api/githubAPI";
-import PRList from "../components/PRList";
+import PRList from "../components/PR/PRList";
+import PRErrors from "../components/PR/PRErrors";
 import { Icon } from "@iconify/react";
 
 export default function OpenedPRs() {
@@ -8,6 +9,11 @@ export default function OpenedPRs() {
   const repo = import.meta.env.VITE_GITHUB_REPO;
   const state = "all";
   const [prList, setPrList] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    loadPRs();
+  }, []);
 
   //Load PR List
   const loadPRs = async () => {
@@ -30,8 +36,12 @@ export default function OpenedPRs() {
 
       //Save PRs into prList
       setPrList(formattedPRList);
+      //Clear errors
+      setError(null);
     } catch (err) {
       console.error("Error get PullRequests:", err);
+      //Add errors
+      setError(err);
     }
   };
 
@@ -74,8 +84,8 @@ export default function OpenedPRs() {
         </div>
       </div>
 
-      {/* PR List */}
-      <PRList prList={prList} />
+      {/* PR List or Error screen */}
+      {error ? <PRErrors err={error} /> : <PRList prList={prList} />}
     </section>
   );
 }
