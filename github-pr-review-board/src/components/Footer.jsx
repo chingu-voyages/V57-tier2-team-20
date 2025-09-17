@@ -20,7 +20,7 @@ export default function Footer() {
     ];
 
     return (
-        <footer className="flex flex-col border-t-8 border-transparent [border-image:linear-gradient(to_right,#00FFFF,#8A2BE2,#FF0080)_1] items-center justify-center gap-12 py-6 md:px-4 px-2 bg-[#141923] bg-[linear-gradient(0deg,rgba(1,255,255,0.05)_0%,rgba(1,255,255,0)_50%,rgba(1,255,255,0)_100%)] ">
+        <footer className="flex flex-col border-t-8 border-transparent [border-image:linear-gradient(to_right,#00FFFF,#8A2BE2,#FF0080)_1] items-center justify-center gap-12 py-6 md:py-12 md:px-4 px-2 bg-[#141923] bg-[linear-gradient(0deg,rgba(1,255,255,0.05)_0%,rgba(1,255,255,0)_50%,rgba(1,255,255,0)_100%)] ">
             <div className="flex flex-col md:flex-row items-center justify-center gap-3">
                 <Icon icon="solar:tea-cup-outline" width="40" height="40" className="bg-[#01ffff33] border p-1 border-[#00FFFF]" color="#00FFFF"/>
                 <h2 className="uppercase text-2xl font-bold text-center tracking-wide text-white">Neural Network Development Team</h2>

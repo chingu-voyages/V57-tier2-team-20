@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 
 export default function Hero() {
   return (
-    <section className='bg-black py-11'>
+    <section className='bg-[#0A0A0F] bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[length:50px_50px]'>
       <div className='text-white mx-auto my-0 py-0 px-[32px] flex flex-col items-center gap-8 '>
         <div className='flex flex-col gap-14 '>
           <h1 className='flex flex-col gap-5 text-center'>

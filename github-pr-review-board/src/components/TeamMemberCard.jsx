@@ -17,27 +17,19 @@ export default function TeamMemberCard({name, role, linkedin, github, color}){
                     </p>
                 </div>
             </div>
-            <div className='flex items-center justify-center gap-1'>
-                <div className='border-1 p-1 border-[#01FFFF]/20 hover:bg-[#01FFFF]/20' >
+            <div className='flex items-center justify-center gap-2'>
                     {linkedin && (
-                    <a href={linkedin} target="_blank" rel="noopener noreferrer">
-                        {/* <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <polygon points="30,10 50,50 10,50" stroke="white" stroke-width="2" fill="none"/>
-                        </svg> */}
-                        <img src={linkedinLogo} alt='linkedin logo'/>
+                    <a href={linkedin} target="_blank" rel="noopener noreferrer" className='border-1 p-2 border-[#01FFFF]/20 hover:bg-[#01FFFF]/20' >
+                        <img src={linkedinLogo} alt='linkedin logo' width="24px" height="24px"/>
                     </a>
                     )}
-                </div>
-                <div className='border-1  p-1 border-[#8A2BE2]/20 hover:bg-[#8A2BE2]/20'>
+        
                 {github && (
-                    <a href={github} target="_blank" rel="noopener noreferrer">
-                        {/* <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="40" stroke="white" stroke-width="2"/>
-                        </svg> */}
-                        <img src={githubLogo} alt='github logo'/>
+                    <a href={github} target="_blank" rel="noopener noreferrer" className='border-1  p-2 border-[#8A2BE2]/20 hover:bg-[#8A2BE2]/20'>
+                        <img src={githubLogo} alt='github logo' width="24px" height="24px"/>
                     </a>
                 )}
-                </div>
+            
             </div>
         </div>
     )
