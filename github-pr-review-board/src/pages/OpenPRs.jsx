@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getPullRequests, getRepos } from "../api/githubAPI";
+import PRList from "../components/PRList";
 import { Icon } from "@iconify/react";
 
 export default function OpenedPRs() {
@@ -14,6 +15,7 @@ export default function OpenedPRs() {
     try {
       const info = await getPullRequests(org, repo, token, state);
 
+      //Get needed fields
       const formattedPRList = info.map((pr) => ({
         number: pr.number,
         created_at: new Date(pr.created_at).toLocaleString(),
@@ -27,7 +29,7 @@ export default function OpenedPRs() {
           : "None",
       }));
 
-      //Save PRs into prInfo
+      //Save PRs into prList
       setPrList(formattedPRList);
     } catch (err) {
       console.error("Error get PullRequests:", err);
@@ -35,9 +37,10 @@ export default function OpenedPRs() {
   };
 
   return (
-    <section className='w-full space-y-6 px-6 md:px-30 py-8'>
+    <section className='w-full px-6 md:px-30 py-8'>
       <div className='p-6 bg-card border border-brand-primary/20'>
         <h2 className='text-white uppercase'>Open pull requests</h2>
+
         {/* Title */}
         <div className='flex justify-between gap-3 flex-wrap'>
           <div className=' flex gap-3 text-brand'>
@@ -70,23 +73,10 @@ export default function OpenedPRs() {
             Refresh
           </button>
         </div>
-
-        {prList.map((pr) => (
-          <div
-            key={pr.number}
-            className='mt-6 text-center text-white'
-          >
-            <p className='text-2xl font-bold'>PR Number: {pr.number}</p>
-            <p className='text-lg'>Created at: {pr.created_at}</p>
-            <p className='text-lg'>Author: {pr.author}</p>
-            <p className='text-lg'>From branch: {pr.fromBranch}</p>
-            <p className='text-lg'>To branch: {pr.toBranch}</p>
-            <p className='text-lg'>Organization: {pr.orgName}</p>
-            <p className='text-lg'>Repository: {pr.repoName}</p>
-            <p className='text-lg'>Reviewers: {pr.reviewers}</p>
-          </div>
-        ))}
       </div>
+
+      {/* PR List */}
+      <PRList prList={prList} />
     </section>
   );
 }
