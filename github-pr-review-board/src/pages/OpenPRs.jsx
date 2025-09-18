@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { getPullRequests, getPullRequestEvents } from "../api/githubAPI";
 import PRList from "../components/PR/PRList";
 import PRErrors from "../components/PR/PRErrors";
-import { Icon } from "@iconify/react";
 
 export default function OpenedPRs() {
   const org = import.meta.env.VITE_GITHUB_ORG;
@@ -74,49 +73,13 @@ export default function OpenedPRs() {
       <div className='p-6 bg-card border border-brand-primary/20'>
         <h2 className='text-white uppercase'>Open pull requests</h2>
 
-        {/* Title */}
-        <div className='flex justify-between gap-3 flex-wrap'>
-          <div className=' flex items-center gap-3 flex-wrap text-brand'>
-            <div className='flex items-center gap-2 flex-wrap'>
-              <Icon
-                icon='solar:link-minimalistic-2-outline'
-                className='w-5 h-5'
-              />
-              <a
-                href={prList[0]?.orgUrl}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                {org}
-              </a>{" "}
-              /
-              <a
-                href={prList[0]?.repoUrl}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                {repo}
-              </a>
-            </div>
-            <button className='flex items-center gap-2 px-3 py-2 border-2 border-brand/30 cursor-pointer hover:text-white hover:bg-brand/20'>
-              <Icon
-                icon='solar:add-circle-outline'
-                className='w-5 h-5'
-              />
-              Change repo
-            </button>
-          </div>
-          <button
-            className='flex items-center gap-2 flex-wrap bg-brand-primary px-4 py-2.5'
-            onClick={loadPRs}
-          >
-            <Icon
-              icon='solar:refresh-square-outline'
-              className='w-5 h-5'
-            />
-            Refresh
-          </button>
-        </div>
+        <Title
+          org={org}
+          repo={repo}
+          orgUrl={prList[0]?.orgUrl}
+          repoUrl={prList[0]?.repoUrl}
+          onRefresh={loadPRs}
+        />
       </div>
 
       {/* PR List or Error screen */}
