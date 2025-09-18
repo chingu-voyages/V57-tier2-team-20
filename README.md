@@ -35,8 +35,9 @@ your repo access and to practice PR'ing with your team *before* you start
 coding!
 
 - Chinedu Olekah, Product Owner: [GitHub](https://github.com/kenako1) / [LinkedIn](https://linkedin.com/in/chinedu-olekah)
+- Ouassima EL YAKOUBI, Frontend Developer: [GitHub](https://github.com/ouassimaelyakoubi) / [LinkedIn](https://linkedin.com/in/ouassima-elyakoubi)
 - Hamza EL ASSRI, UI/UX Designer : [GitHub](https://github.com/Hamza-EL07) / [LinkedIn](https://www.linkedin.com/in/hamza-elassri/)
-- Teammate name #2: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname) 
-
-   ...
-- Teammate name #n: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
+- Ayo Alabi, ScrumMaster : [GitHub](https://github.com/AAlabi2) / [LinkedIn](https://www.linkedin.com/in/ayot/)
+- Alexander Makoveev, Frontend Developer : [GitHub](https://github.com/Alexander-NM) / [LinkedIn](https://www.linkedin.com/in/alexander-makoveev)
+- Nadiia Lashtun, Frontend Developer : [GitHub](https://github.com/NadiiaLashtun) / [LinkedIn](https://www.linkedin.com/in/lashtun)
+- Ebhamen Joshua, Frontend Developer: [GitHub](https://github.com/Isaacjosh23) / [LinkedIn](https://www.linkedin.com/in/joshua-ebhamen-4904aa344?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
