@@ -17,23 +17,12 @@
     );
 }
 
-.hero-gradient-text {
-    background: linear-gradient(to right, #00ffff, #8a2be2, #ff0080);
-    -webkit-text-fill-color: transparent;
-}
 
 body {
     font-family: "Inter", sans-serif;
 }
 
-.cta-border {
-    box-shadow: inset 0 0 0 2px #00ffff;
-    transition: all 0.3s;
-}
 
-.cta-border:hover {
-    box-shadow: none;
-}
 /* Custom floating animation */
 @keyframes float {
   0%, 100% {
