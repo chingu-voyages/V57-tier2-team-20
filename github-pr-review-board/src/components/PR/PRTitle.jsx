@@ -1,8 +1,8 @@
-import Button1 from "../components/Button1";
-import Button2 from "../components/Button2";
+import Button1 from "../Button1";
+import Button2 from "../Button2";
 import { Icon } from "@iconify/react";
 
-export default function Title({ repo, orgUrl, repoUrl, onRefresh }) {
+export default function PRTitle({ org, repo, orgUrl, repoUrl, onRefresh }) {
   return (
     <div className='flex justify-between gap-3 flex-wrap'>
       <div className=' flex items-center gap-3 flex-wrap text-brand'>
@@ -12,7 +12,7 @@ export default function Title({ repo, orgUrl, repoUrl, onRefresh }) {
             className='w-5 h-5'
           />
           <a
-            href={prList[0]?.orgUrl}
+            href={orgUrl}
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -20,7 +20,7 @@ export default function Title({ repo, orgUrl, repoUrl, onRefresh }) {
           </a>
           /
           <a
-            href={prList[0]?.repoUrl}
+            href={repoUrl}
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -37,7 +37,7 @@ export default function Title({ repo, orgUrl, repoUrl, onRefresh }) {
       <Button1
         icon='solar:refresh-square-outline'
         text='Refresh'
-        onClick={loadPRs}
+        onClick={onRefresh}
       />
     </div>
   );

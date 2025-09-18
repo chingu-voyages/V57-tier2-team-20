@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getPullRequests, getPullRequestEvents } from "../api/githubAPI";
 import PRList from "../components/PR/PRList";
 import PRErrors from "../components/PR/PRErrors";
+import Title from "../components/PR/PRTitle";
 
 export default function OpenedPRs() {
   const org = import.meta.env.VITE_GITHUB_ORG;
