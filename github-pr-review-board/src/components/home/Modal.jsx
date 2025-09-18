@@ -5,7 +5,6 @@ import { usePrDetails } from "../../context/PrDetailsContext";
 export default function Modal({ showModal, setShowModal }) {
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
-  // const [newPrDetails, setNewPrDetails] = useState({});
   const { newPrDetails, setNewPrDetails } = usePrDetails();
 
   const [savedOrgs, setSavedOrgs] = useState([]);
@@ -88,10 +87,6 @@ export default function Modal({ showModal, setShowModal }) {
     setShowOrgDropdown(false);
     setShowRepoDropdown(false);
   };
-
-  // const handleNewPrDetails = (details) => {
-  //   setNewPrDetails(details);
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
