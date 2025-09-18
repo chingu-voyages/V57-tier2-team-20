@@ -1,29 +1,95 @@
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Modal({ showModal, setShowModal }) {
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
-
   const [newPrDetails, setNewPrDetails] = useState({});
 
-  const handleNewPrDetails = (details) => {
-    setNewPrDetails(details);
+  const [savedOrgs, setSavedOrgs] = useState([]);
+  const [savedRepos, setSavedRepos] = useState([]);
+
+  const [orgSuggestions, setOrgSuggestions] = useState([]);
+  const [repoSuggestions, setRepoSuggestions] = useState([]);
+
+  const [showOrgDropdown, setShowOrgDropdown] = useState(false);
+  const [showRepoDropdown, setShowRepoDropdown] = useState(false);
+
+  const pattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  const isValid = (value) => pattern.test(value);
+  const isFormValid = isValid(orgName) && isValid(repoName);
+
+  console.log(newPrDetails);
+
+  useEffect(() => {
+    if (!showModal) return;
+    const orgs = JSON.parse(localStorage.getItem("orgs") || "[]");
+    const repos = JSON.parse(localStorage.getItem("repos") || "[]");
+    setSavedOrgs(orgs);
+    setSavedRepos(repos);
+  }, [showModal]);
+
+  const handleOrgFocus = () => {
+    setOrgSuggestions(savedOrgs);
+    setShowOrgDropdown(savedOrgs.length > 0);
+  };
+
+  const handleOrgChange = (value) => {
+    setOrgName(value);
+
+    const q = value.trim().toLowerCase();
+    if (!q) {
+      setOrgSuggestions(savedOrgs);
+      setShowOrgDropdown(savedOrgs.length > 0);
+      return;
+    }
+
+    const filtered = savedOrgs.filter((s) => s.startsWith(q));
+    setOrgSuggestions(filtered);
+    setShowOrgDropdown(filtered.length > 0);
+  };
+
+  const handleOrgSelect = (value) => {
+    setOrgName(value);
+    setShowOrgDropdown(false);
+  };
+
+  const handleRepoFocus = () => {
+    setRepoSuggestions(savedRepos);
+    setShowRepoDropdown(savedRepos.length > 0);
+  };
+
+  const handleRepoChange = (value) => {
+    setRepoName(value);
+
+    const q = value.trim().toLowerCase();
+    if (!q) {
+      setRepoSuggestions(savedRepos);
+      setShowRepoDropdown(savedRepos.length > 0);
+      return;
+    }
+
+    const filtered = savedRepos.filter((s) => s.startsWith(q));
+    setRepoSuggestions(filtered);
+    setShowRepoDropdown(filtered.length > 0);
+  };
+
+  const handleRepoSelect = (value) => {
+    setRepoName(value);
+    setShowRepoDropdown(false);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
     setOrgName("");
     setRepoName("");
+    setShowOrgDropdown(false);
+    setShowRepoDropdown(false);
   };
 
-  console.log(newPrDetails);
-
-  const pattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-
-  const isValid = (value) => pattern.test(value);
-
-  const isFormValid = isValid(orgName) && isValid(repoName);
+  const handleNewPrDetails = (details) => {
+    setNewPrDetails(details);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,14 +98,25 @@ export default function Modal({ showModal, setShowModal }) {
     if (!isValid(orgName) || !isValid(repoName)) return;
 
     const prDetails = { orgName, repoName };
-
     handleNewPrDetails(prDetails);
+
+    const updatedOrgs = Array.from(new Set([...(savedOrgs || []), orgName]));
+    const updatedRepos = Array.from(new Set([...(savedRepos || []), repoName]));
+
+    localStorage.setItem("orgs", JSON.stringify(updatedOrgs));
+    localStorage.setItem("repos", JSON.stringify(updatedRepos));
+
+    setSavedOrgs(updatedOrgs);
+    setSavedRepos(updatedRepos);
 
     setOrgName("");
     setRepoName("");
+    setShowOrgDropdown(false);
+    setShowRepoDropdown(false);
     setShowModal(false);
   };
 
+  // Render
   return (
     <>
       {showModal && (
@@ -48,34 +125,57 @@ export default function Modal({ showModal, setShowModal }) {
             <h3 className="text-white uppercase font-bold text-[18px]">
               Initialize Repository
             </h3>
-
-            <button onClick={handleCloseModal} className="cursor-pointer">
+            <button
+              onClick={handleCloseModal}
+              className="cursor-pointer"
+              type="button"
+            >
               <Icon
                 icon="solar:close-circle-outline"
                 className="text-[var(--color-text)] h-[24px] w-[24px] hover:text-white"
               />
             </button>
           </div>
+
           <div className="bg-[var(--color-card)] p-[16px] border border-t-0 border-[var(--color-brand-primary)]">
             <form
               onSubmit={handleSubmit}
               className="flex flex-col gap-10 modal"
             >
               <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-[8px]">
+                {/* ORG */}
+                <div className="flex flex-col gap-[8px] relative">
                   <label className="text-white uppercase text-[12px]">
                     github_org
                   </label>
 
                   <input
                     value={orgName}
-                    onChange={(e) => setOrgName(e.target.value)}
+                    onChange={(e) => handleOrgChange(e.target.value)}
+                    onFocus={handleOrgFocus}
+                    onBlur={() =>
+                      setTimeout(() => setShowOrgDropdown(false), 150)
+                    }
                     type="text"
                     placeholder="ENTER VALID ORG NAME..."
                     className={`p-[10px] text-white text-[14px] placeholder:text-[var(--color-text)] ${
                       orgName && !isValid(orgName) ? "border-[#ff00804d]" : ""
                     }`}
                   />
+
+                  {showOrgDropdown && orgSuggestions.length > 0 && (
+                    <ul className="absolute top-full mt-1 bg-[var(--color-card)] border border-gray-600 max-h-32 overflow-y-auto w-full z-10">
+                      {orgSuggestions.map((org, idx) => (
+                        <li
+                          key={idx}
+                          className="p-2 text-sm text-white cursor-pointer hover:bg-gray-700"
+                          onMouseDown={() => handleOrgSelect(org)} // onMouseDown so selection happens before blur
+                        >
+                          {org}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
                   <div>
                     {orgName ? (
@@ -85,7 +185,6 @@ export default function Modal({ showModal, setShowModal }) {
                             icon="solar:danger-triangle-outline"
                             className="w-[16px] h-[16px]"
                           />
-
                           <p>Enter a valid organization name</p>
                         </div>
                       ) : (
@@ -94,7 +193,6 @@ export default function Modal({ showModal, setShowModal }) {
                             icon="solar:check-circle-outline"
                             className="w-[16px] h-[16px]"
                           />
-
                           <p>Valid organization name</p>
                         </div>
                       )
@@ -102,20 +200,40 @@ export default function Modal({ showModal, setShowModal }) {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-[8px]">
+                {/* REPO */}
+                <div className="flex flex-col gap-[8px] relative">
                   <label className="text-white uppercase text-[12px]">
                     github_repo_name
                   </label>
 
                   <input
                     value={repoName}
-                    onChange={(e) => setRepoName(e.target.value)}
+                    onChange={(e) => handleRepoChange(e.target.value)}
+                    onFocus={handleRepoFocus}
+                    onBlur={() =>
+                      setTimeout(() => setShowRepoDropdown(false), 150)
+                    }
                     type="text"
                     placeholder="ENTER VALID REPO NAME..."
                     className={`p-[10px] text-white text-[14px] placeholder:text-[var(--color-text)] ${
                       repoName && !isValid(repoName) ? "border-[#ff00804d]" : ""
                     }`}
                   />
+
+                  {showRepoDropdown && repoSuggestions.length > 0 && (
+                    <ul className="absolute top-full mt-1 bg-[var(--color-card)] border border-gray-600 max-h-32 overflow-y-auto w-full z-10">
+                      {repoSuggestions.map((repo, idx) => (
+                        <li
+                          key={idx}
+                          className="p-2 text-sm text-white cursor-pointer hover:bg-gray-700"
+                          onMouseDown={() => handleRepoSelect(repo)}
+                        >
+                          {repo}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   <div>
                     {repoName ? (
                       !isValid(repoName) ? (
@@ -124,7 +242,6 @@ export default function Modal({ showModal, setShowModal }) {
                             icon="solar:danger-triangle-outline"
                             className="w-[16px] h-[16px]"
                           />
-
                           <p>Enter a valid repository name</p>
                         </div>
                       ) : (
@@ -133,7 +250,6 @@ export default function Modal({ showModal, setShowModal }) {
                             icon="solar:check-circle-outline"
                             className="w-[16px] h-[16px]"
                           />
-
                           <p>Valid repository name</p>
                         </div>
                       )
@@ -156,13 +272,14 @@ export default function Modal({ showModal, setShowModal }) {
                   >
                     Cancel
                   </button>
+
                   <button
-                    disabled={!isFormValid}
                     type="submit"
-                    className={`bg-[var(--color-brand-primary)] text-[#1E232D] text-[14px] px-[16px] py-[8px] cursor-pointer${
+                    disabled={!isFormValid}
+                    className={`text-[14px] px-[16px] py-[8px] ${
                       isFormValid
-                        ? "bg-[var(--color-brand-primary)] text-[#1E232D] hover:opacity-90"
-                        : "bg-gray-600 text-gray-400 cursor-not-allowed opacity-50"
+                        ? "bg-[var(--color-brand-primary)] text-[#1E232D] cursor-pointer hover:opacity-90"
+                        : "bg-[var(--color-brand-primary)] text-[#1E232D] cursor-not-allowed opacity-50"
                     }`}
                   >
                     GET PRS
@@ -173,10 +290,12 @@ export default function Modal({ showModal, setShowModal }) {
           </div>
         </div>
       )}
+
+      {/* backdrop */}
       {showModal && (
         <div
           onClick={handleCloseModal}
-          className={`absolute z-[45] top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)] backdrop-blur-[3px]`}
+          className="absolute z-[45] top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)] backdrop-blur-[3px]"
         ></div>
       )}
     </>
