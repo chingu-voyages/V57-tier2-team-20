@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import logo from "../assets/Codesandbox.svg";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
