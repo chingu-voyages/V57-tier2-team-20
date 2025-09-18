@@ -30,7 +30,7 @@ export default function SolutionBenefits() {
             border-t-[20px] border-l-[20px] 
             border-t-brand-primary border-l-transparent"></span>
           <Icon icon="solar:bolt-outline" width="40" height="40" className="transform group-hover:rotate-6 transition-transform duration-300 text-brand-primary border-1 p-2 bg-[#01FFFF1A] border-brand-primary"/>            
-          <h3 className="text-white tracking-wide text-lg font-semibold uppercase">
+          <h3 className="text-white tracking-wide text-lg font-semibold uppercase w-2/3">
             real-time pr tracking
           </h3>
           <p className="text-gray-400 text-sm leading-relaxed max-w-[224px]">
