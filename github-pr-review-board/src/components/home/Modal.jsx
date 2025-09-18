@@ -1,10 +1,12 @@
 import { Icon } from "@iconify/react";
 import { useState, useEffect } from "react";
+import { usePrDetails } from "../../context/PrDetailsContext";
 
 export default function Modal({ showModal, setShowModal }) {
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
-  const [newPrDetails, setNewPrDetails] = useState({});
+  // const [newPrDetails, setNewPrDetails] = useState({});
+  const { newPrDetails, setNewPrDetails } = usePrDetails();
 
   const [savedOrgs, setSavedOrgs] = useState([]);
   const [savedRepos, setSavedRepos] = useState([]);
@@ -87,9 +89,9 @@ export default function Modal({ showModal, setShowModal }) {
     setShowRepoDropdown(false);
   };
 
-  const handleNewPrDetails = (details) => {
-    setNewPrDetails(details);
-  };
+  // const handleNewPrDetails = (details) => {
+  //   setNewPrDetails(details);
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -98,7 +100,7 @@ export default function Modal({ showModal, setShowModal }) {
     if (!isValid(orgName) || !isValid(repoName)) return;
 
     const prDetails = { orgName, repoName };
-    handleNewPrDetails(prDetails);
+    setNewPrDetails(prDetails);
 
     const updatedOrgs = Array.from(new Set([...(savedOrgs || []), orgName]));
     const updatedRepos = Array.from(new Set([...(savedRepos || []), repoName]));
