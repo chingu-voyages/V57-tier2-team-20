@@ -62,7 +62,7 @@ export default function Header() {
           `}
         >
           {/* Mobile date (only visible on mobile when menu is open) */}
-          <div className="flex items-center justify-center text-[#01FFFF33] mb-2 md:hidden border-1 border-[#01FFFF33] px-4 py-2">
+          <div className="flex items-center justify-center text-[#9696AA] mb-2 md:hidden border-1 border-[#01FFFF33] px-4 py-2">
             <Icon icon="solar:clock-circle-linear" width="24" height="24" />
             <p className="uppercase text-sm ml-2">{formattedDate}</p>
           </div>
@@ -105,7 +105,7 @@ export default function Header() {
           </NavLink>
         </div>
          {/* Desktop date (always visible on md+) */}
-        <div className="hidden md:flex items-center text-[#01FFFF33] border-1 border-[#01FFFF33] px-4 py-2 ml-4">
+        <div className="hidden md:flex items-center text-[#9696AA] border-1 border-[#01FFFF33] px-4 py-2 ml-4">
           <Icon icon="solar:clock-circle-outline" width="24" height="24" />          
           <p className="uppercase text-sm ml-2">{formattedDate}</p>
         </div>
