@@ -4,28 +4,28 @@ import { Icon } from "@iconify/react";
 
 export default function BuiltFor() {
   const icons = [
-    {
+   {
       icon: "solar:code-bold",
       text: "GitHub API integration",
-      color: "brand-primary/30",
+      color: "border-brand-primary/30 text-brand-primary/30",
       bgColor: "bg-[#01FFFF1A]"
     },
     {
       icon: "solar:database-outline",
       text: "Historical PR tracking",
-      color: "brand/30",
+      color: "border-brand/30 text-brand/30",
       bgColor: "bg-[#8A2BE21A]"
     },
     {
       icon: "solar:eye-outline",
       text: "Team-customized views",
-      color: "brand-secondary/30",
+      color: "border-brand-secondary/30 text-brand-secondary/30",
       bgColor: "bg-[#FF00801A]"
     },
     {
       icon: "solar:monitor-outline",
       text: "Developer- friendly interface",
-      color: "brand-primary/30",
+      color: "border-brand-primary/30 text-brand-primary/30",
       bgColor: "bg-[#01FFFF1A]"
     },
   ];
