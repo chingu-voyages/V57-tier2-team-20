@@ -37,6 +37,7 @@ export default function Modal({ showModal, setShowModal }) {
 
     setOrgName("");
     setRepoName("");
+    setShowModal(false);
   };
 
   return (
@@ -149,6 +150,7 @@ export default function Modal({ showModal, setShowModal }) {
               <div className="place-self-end">
                 <div className="flex items-center gap-4">
                   <button
+                    type="button"
                     onClick={handleCloseModal}
                     className="shadow-[inset_0_0_0_1px_#00ffff] px-[16px] text-[14px] py-[8px] text-[var(--color-text)] cursor-pointer hover:shadow-none delay-75 transition-all"
                   >
@@ -156,6 +158,7 @@ export default function Modal({ showModal, setShowModal }) {
                   </button>
                   <button
                     disabled={!isFormValid}
+                    type="submit"
                     className={`bg-[var(--color-brand-primary)] text-[#1E232D] text-[14px] px-[16px] py-[8px] cursor-pointer${
                       isFormValid
                         ? "bg-[var(--color-brand-primary)] text-[#1E232D] hover:opacity-90"
