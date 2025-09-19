@@ -1,4 +1,4 @@
-import PRCard from "./PRCard";
+import PRCard from "./PRCard/PRCard";
 
 export default function PRList({ prList }) {
   return (
