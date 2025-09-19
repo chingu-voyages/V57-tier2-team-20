@@ -29,6 +29,7 @@ body {
 .modal input:focus {
   outline: none;
   box-shadow: inset 0 0 0 2px var(--color-brand-primary);
+}
 
 /* Custom floating animation */
 @keyframes float {
