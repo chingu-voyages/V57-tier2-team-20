@@ -3,7 +3,34 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 export default function PRCard({ pr }) {
   return (
     <div className='p-6 bg-card border border-brand-primary/20 space-y-3'>
-      {/* Title */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-center gap-2">
+        <Icon
+                icon='solar:document-add-outline' width="24" height="24"
+                className='text-white border self-start border-white p-1 bg-brand-primary/10'
+        />
+        <div className="flex flex-col items-start justify-center">
+          <div className="flex items-center justify-center gap-2">
+          <h2 className="uppercase text-lg font-semibold text-brand-primary">open pull requests</h2>
+            <Icon
+              icon='solar:square-bottom-up-outline' className="self-start"
+              width="24" height="24"
+            />
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <p>{pr.head.ref}</p>
+            <Icon
+              icon='solar:play-outline' width="24" height="24"
+            />
+            <p>{pr.base.ref}</p>
+          </div>
+        </div>
+      </div>
+      <div className="border border-brand-primary bg-brand-primary/20 self-start text-brand-primary text-sm px-4 py-2">
+        <p>PR # {pr.number}</p>
+      </div>
+      </div>
+{/*        Title 
       <div className='flex justify-between flex-wrap'>
         <div>
           <div className=' flex items-center gap-3 text-brand-primary'>
@@ -18,7 +45,7 @@ export default function PRCard({ pr }) {
             />
           </div>
 
-          {/* Branch from / to */}
+          {/* Branch from / to 
           <div className='flex items-center gap-2 text-brand'>
             {pr.fromBranch}
             <Icon
@@ -29,11 +56,11 @@ export default function PRCard({ pr }) {
           </div>
         </div>
 
-        {/* PR number */}
+        /* PR number 
         <div className='bg-brand-primary/20 border border-brand-primary text-brand-primary px-4 py-2 h-full'>
           PR #{pr.number}
         </div>
-      </div>
+      </div> */}
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6 text-left'>
         <div className='space-y-3 uppercase'>
