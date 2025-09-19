@@ -10,7 +10,7 @@ export default function BuiltForItem({ icon, text, color, bgColor }) {
       >
         <Icon
           icon={icon}
-          className={`w-3.5 h-3.5`}
+          className={`w-3.5 h-3.5 text-${color}`}
         />
       </div>
       {text}
