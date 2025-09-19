@@ -35,46 +35,58 @@ export default function RepoModal({ onClose , onSuccess}) {
   };
 
     const handleSubmit = async () => {
-    setStatus("idle");
-    setMessage("");
+  setStatus("idle");
+  setMessage("");
 
-    if (!org) {
-      setOrgMsg("Organization name is required");
-      return;
+  if (!org) {
+    setOrgMsg("Organization name is required");
+    return;
+  }
+  if (!repo) {
+    setRepoMsg("Repository name is required");
+    return;
+  }
+  if (orgMsg.includes("Invalid") || repoMsg.includes("Invalid")) {
+    return;
+  }
+
+  try {
+    // 1. Fetch open PRs
+    const res = await fetch(
+      `https://api.github.com/repos/${org}/${repo}/pulls?state=open`
+    );
+
+    if (!res.ok) {
+      throw new Error("REPO NOT FOUND!");
     }
-    if (!repo) {
-      setRepoMsg("Repository name is required");
-      return;
-    }
-    if (orgMsg.includes("Invalid") || repoMsg.includes("Invalid")) {
-      return;
-    }
 
-    try {
-      const res = await fetch(
-        `https://api.github.com/repos/${org}/${repo}/pulls?state=open`
-      );
+    const prs = await res.json();
 
-      if (!res.ok) {
-        throw new Error("REPO NOT FOUND!");
-      }
+    // 2. Fetch comments for each PR
+    const prsWithComments = await Promise.all(
+      prs.map(async (pr) => {
+        const commentsRes = await fetch(
+          `https://api.github.com/repos/${org}/${repo}/issues/${pr.number}/comments`
+        );
+        const comments = await commentsRes.json();
+        return { ...pr, comments };
+      })
+    );
 
-      const data = await res.json();
-      setPrs(data);
+    setPrs(prsWithComments);
+    setStatus("success");
+    setMessage("SUCCESS");
 
-      setStatus("success");
-      setMessage("SUCCESS");
-
-      // ⏳ wait 2 seconds before sending data to parent (so success banner shows first)
+    // ⏳ wait 2 seconds before sending data to parent
     setTimeout(() => {
-      onSuccess(data);
+      onSuccess(prsWithComments);
     }, 2000);
+  } catch (err) {
+    setStatus("error");
+    setMessage(err.message);
+  }
+};
 
-    } catch (err) {
-      setStatus("error");
-      setMessage(err.message);
-    }
-  };
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm flex-col py-6 ">
