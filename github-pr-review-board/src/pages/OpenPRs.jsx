@@ -21,42 +21,45 @@ export default function OpenedPRs() {
       const info = await getPullRequests(org, repo, state);
 
       //Get needed fields
-      // const formattedPRList = info.map((pr) => ({
-      //   title: pr.title,
-      //   number: pr.number,
-      //   pr_url: pr.html_url,
-      //   created_at: new Date(pr.created_at).toLocaleString(),
-      //   author: pr.user.login,
-      //   fromBranch: pr.head.ref,
-      //   toBranch: pr.base.ref,
-      //   orgName: pr.base.repo.owner.login,
-      //   repoName: pr.base.repo.name,
-      //   reviewers: pr.requested_reviewers?.length
-      //     ? pr.requested_reviewers.map((user) => user.login).join(", ")
-      //     : "None",
-      // }));
+      const formattedPRList = info.map((pr) => ({
+        title: pr.title,
+        number: pr.number,
+        pr_url: pr.html_url,
+        created_at: new Date(pr.created_at).toLocaleString(),
+        author: pr.user.login,
+        fromBranch: pr.head.ref,
+        toBranch: pr.base.ref,
+        orgName: pr.base.repo.owner.login,
+        orgUrl: pr.base.repo.owner.html_url,
+        repoName: pr.base.repo.name,
+        repoUrl: pr.base.repo.html_url,
+        reviewers: pr.requested_reviewers?.length
+          ? pr.requested_reviewers.map((user) => user.login).join(", ")
+          : "None",
+        activities: null,
+      }));
 
-      const formattedPRList = await Promise.all(
-        info.map(async (pr) => {
-          return {
-            title: pr.title,
-            number: pr.number,
-            pr_url: pr.html_url,
-            created_at: new Date(pr.created_at).toLocaleString(),
-            author: pr.user.login,
-            fromBranch: pr.head.ref,
-            toBranch: pr.base.ref,
-            orgName: pr.base.repo.owner.login,
-            orgUrl: pr.base.repo.owner.html_url,
-            repoName: pr.base.repo.name,
-            repoUrl: pr.base.repo.html_url,
-            reviewers: pr.requested_reviewers?.length
-              ? pr.requested_reviewers.map((user) => user.login).join(", ")
-              : "None",
-            activities: await getPullRequestEvents(org, repo, pr.number),
-          };
-        })
-      );
+      // const formattedPRList = await Promise.all(
+      //   info.map(async (pr) => {
+      //     return {
+      //       title: pr.title,
+      //       number: pr.number,
+      //       pr_url: pr.html_url,
+      //       created_at: new Date(pr.created_at).toLocaleString(),
+      //       author: pr.user.login,
+      //       fromBranch: pr.head.ref,
+      //       toBranch: pr.base.ref,
+      //       orgName: pr.base.repo.owner.login,
+      //       orgUrl: pr.base.repo.owner.html_url,
+      //       repoName: pr.base.repo.name,
+      //       repoUrl: pr.base.repo.html_url,
+      //       reviewers: pr.requested_reviewers?.length
+      //         ? pr.requested_reviewers.map((user) => user.login).join(", ")
+      //         : "None",
+      //       activities: await getPullRequestEvents(org, repo, pr.number),
+      //     };
+      //   })
+      // );
 
       //Save PRs into prList
       setPrList(formattedPRList);
