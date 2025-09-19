@@ -11,7 +11,7 @@ export default function PRCardActivities({ activities }) {
         activities.map((act, i) => (
           <div
             key={i}
-            className='flex gap-2 items-center'
+            className='flex items-center gap-2 flex-wrap'
           >
             <Icon
               icon='solar:forward-2-bold'

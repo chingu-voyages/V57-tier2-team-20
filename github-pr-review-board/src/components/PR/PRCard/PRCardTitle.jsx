@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 
 export default function PRCardTitle({ pr }) {
   return (
-    <div className='flex justify-between flex-wrap-reverse'>
+    <div className='flex justify-between flex-wrap-reverse gap-3'>
       <div>
         <div className=' flex items-center gap-3 text-brand-primary'>
           <Icon
@@ -17,7 +17,7 @@ export default function PRCardTitle({ pr }) {
         </div>
 
         {/* Branch from / to */}
-        <div className='flex items-center gap-2 text-brand'>
+        <div className='flex items-center flex-wrap gap-2 text-brand'>
           {pr.fromBranch}
           <Icon
             icon='solar:play-outline'
