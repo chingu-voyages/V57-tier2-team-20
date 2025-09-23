@@ -1,4 +1,5 @@
 import { Octokit } from "@octokit/rest";
+import { timeAgo } from "../utils/dateConverter";
 
 const octokit = new Octokit({
   // auth: import.meta.env.VITE_GITHUB_TOKEN,
@@ -15,11 +16,6 @@ async function fetchAPI(url) {
     console.error(`Error fetching ${url}:`, err);
     throw err;
   }
-}
-
-// List of Pull Requests
-export async function getPullRequests(org, repo, state) {
-  return fetchAPI(`/repos/${org}/${repo}/pulls?state=${state}&per_page=100`);
 }
 
 // List of Repos
@@ -51,6 +47,65 @@ export async function getPRCommits(org, repo, prNumber) {
   return fetchAPI(`/repos/${org}/${repo}/pulls/${prNumber}/commits`);
 }
 
+//List of Pull Requests
+export async function getPullRequests(org, repo, state) {
+  const info = await fetchAPI(
+    `/repos/${org}/${repo}/pulls?state=${state}&per_page=100`
+  );
+
+  //Without activities
+  return info.map((pr) => ({
+    title: pr.title,
+    number: pr.number,
+    pr_url: pr.html_url,
+    created_at: timeAgo(pr.created_at),
+    author: pr.user.login,
+    authorUrl: `https://github.com/${pr.user.login}`,
+    fromBranch: pr.head.ref,
+    fromBranchUrl: `${pr.base.repo.html_url}/tree/${pr.head.ref}`,
+    toBranch: pr.base.ref,
+    toBranchUrl: `${pr.base.repo.html_url}/tree/${pr.base.ref}`,
+    orgName: pr.base.repo.owner.login,
+    orgUrl: pr.base.repo.owner.html_url,
+    repoName: pr.base.repo.name,
+    repoUrl: pr.base.repo.html_url,
+    reviewers: pr.requested_reviewers?.length
+      ? pr.requested_reviewers.map((user) => ({
+          login: user.login,
+          url: `https://github.com/${user.login}`,
+        }))
+      : [],
+    activities: null,
+  }));
+
+  //With activities
+  //   return Promise.all(
+  //     info.map(async (pr) => ({
+  //       title: pr.title,
+  //       number: pr.number,
+  //       pr_url: pr.html_url,
+  //       created_at: timeAgo(pr.created_at),
+  //       author: pr.user.login,
+  //       authorUrl: `https://github.com/${pr.user.login}`,
+  //       fromBranch: pr.head.ref,
+  //       fromBranchUrl: `${pr.base.repo.html_url}/tree/${pr.head.ref}`,
+  //       toBranch: pr.base.ref,
+  //       toBranchUrl: `${pr.base.repo.html_url}/tree/${pr.base.ref}`,
+  //       orgName: pr.base.repo.owner.login,
+  //       orgUrl: pr.base.repo.owner.html_url,
+  //       repoName: pr.base.repo.name,
+  //       repoUrl: pr.base.repo.html_url,
+  //       reviewers: pr.requested_reviewers?.length
+  //         ? pr.requested_reviewers.map((user) => ({
+  //             login: user.login,
+  //             url: `https://github.com/${user.login}`,
+  //           }))
+  //         : [],
+  //       activities: await getPullRequestEvents(org, repo, pr.number),
+  //     }))
+  //   );
+}
+
 //Get last 3 events
 export async function getPullRequestEvents(org, repo, prNumber) {
   const [events, comments, reviews, commits] = await Promise.all([
@@ -74,7 +129,9 @@ export async function getPullRequestEvents(org, repo, prNumber) {
         a.state ||
         a.event ||
         (a.commit ? "commit" : "commented")
-      ).replace(/_/g, " "),
+      )
+        .replace(/_/g, " ")
+        .toLowerCase(),
       created_at: a.created_at || a.submitted_at || a.commit?.author?.date,
     }));
 

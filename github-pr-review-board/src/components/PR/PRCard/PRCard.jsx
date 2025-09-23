@@ -38,21 +38,24 @@ export default function PRCard({ pr }) {
           {/* Reviewers section */}
           <div className='p-4 border border-brand/30 text-brand'>
             <PRCardItemsTitle text='Reviewers' />
-            <div className='px-8 pt-3'>
-              <p className='bg-brand/20 border border-brand/30 text-white p-1 w-fit'>
-                {pr.reviewers.length
-                  ? pr.reviewers.map((rev) => (
-                      <a
-                        key={rev.login}
-                        href={rev.url}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        {rev.login}
-                      </a>
-                    ))
-                  : "None"}
-              </p>
+            <div className='px-8 pt-3 text-white space-x-2'>
+              {pr.reviewers.length ? (
+                pr.reviewers.map((rev) => (
+                  <a
+                    key={rev.login}
+                    href={rev.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='bg-brand/20 border border-brand/30 p-1 w-fit'
+                  >
+                    {rev.login}
+                  </a>
+                ))
+              ) : (
+                <span className='bg-brand/20 border border-brand/30 p-1 w-fit'>
+                  None
+                </span>
+              )}
             </div>
           </div>
         </div>
