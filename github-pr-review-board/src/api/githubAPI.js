@@ -1,7 +1,7 @@
 import { Octokit } from "@octokit/rest";
 
 const octokit = new Octokit({
-  // auth: import.meta.env.VITE_GITHUB_TOKEN,
+  //auth: import.meta.env.VITE_GITHUB_TOKEN,
   headers: {
     "X-GitHub-Api-Version": "2022-11-28",
   },
