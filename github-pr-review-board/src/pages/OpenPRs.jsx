@@ -73,18 +73,14 @@ export default function OpenedPRs({ org, repo }) {
   };
 
   return (
-    <section className='w-full px-6 lg:px-30 py-8'>
-      <div className='p-6 bg-card border border-brand-primary/20'>
-        <h2 className='text-white uppercase'>Open pull requests</h2>
-
-        <Title
-          org={org}
-          repo={repo}
-          orgUrl={prList[0]?.orgUrl}
-          repoUrl={prList[0]?.repoUrl}
-          onRefresh={loadPRs}
-        />
-      </div>
+    <section className='w-full lg:px-22 space-y-6 z-10'>
+      <Title
+        org={org}
+        repo={repo}
+        orgUrl={prList[0]?.orgUrl}
+        repoUrl={prList[0]?.repoUrl}
+        onRefresh={loadPRs}
+      />
 
       {/* PR List or Error screen */}
       {error ? <PRErrors err={error} /> : <PRList prList={prList} />}

@@ -8,7 +8,7 @@ export default function Button1({ icon, text, onClick }) {
     >
       <Icon
         icon={icon}
-        className='w-4 h-4'
+        className='w-5 h-5'
       />
       {text}
     </button>
