@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 
-export default function PRCardItemsTitle({ text, color, time }) {
+export default function PRCardItemsTitle({ text }) {
   return (
     <div className='flex items-center gap-2'>
       <Icon

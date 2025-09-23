@@ -3,11 +3,12 @@ import { getPullRequests, getPullRequestEvents } from "../api/githubAPI";
 import PRList from "../components/PR/PRList";
 import PRErrors from "../components/PR/PRErrors";
 import Title from "../components/PR/PRTitle";
+import { timeAgo } from "../utils/dateConverter";
 
 export default function OpenedPRs({ org, repo }) {
   // const org = import.meta.env.VITE_GITHUB_ORG;
   // const repo = import.meta.env.VITE_GITHUB_REPO;
-  const state = "all";
+  const state = "closed";
   const [prList, setPrList] = useState([]);
   const [error, setError] = useState(null);
 
@@ -45,7 +46,7 @@ export default function OpenedPRs({ org, repo }) {
             title: pr.title,
             number: pr.number,
             pr_url: pr.html_url,
-            created_at: new Date(pr.created_at).toLocaleString(),
+            created_at: timeAgo(pr.created_at),
             author: pr.user.login,
             fromBranch: pr.head.ref,
             toBranch: pr.base.ref,

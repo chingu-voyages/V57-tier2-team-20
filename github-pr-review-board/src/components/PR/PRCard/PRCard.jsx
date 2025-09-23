@@ -13,7 +13,7 @@ export default function PRCard({ pr }) {
           <div className='p-4 border border-primary/20 text-brand-primary/20'>
             <div className='flex justify-between items-center flex-wrap-reverse gap-2'>
               <PRCardItemsTitle text='Created By' />
-              <div className='flex items-center gap-1 text-text text-xs'>
+              <div className='flex items-center gap-1 text-text text-xs lowercase'>
                 <Icon
                   icon='solar:history-linear'
                   className='w-4 h-4 shrink-0'
