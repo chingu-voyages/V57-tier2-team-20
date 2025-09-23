@@ -4,9 +4,9 @@ import PRList from "../components/PR/PRList";
 import PRErrors from "../components/PR/PRErrors";
 import Title from "../components/PR/PRTitle";
 
-export default function OpenedPRs() {
-  const org = import.meta.env.VITE_GITHUB_ORG;
-  const repo = import.meta.env.VITE_GITHUB_REPO;
+export default function OpenedPRs({ org, repo }) {
+  // const org = import.meta.env.VITE_GITHUB_ORG;
+  // const repo = import.meta.env.VITE_GITHUB_REPO;
   const state = "all";
   const [prList, setPrList] = useState([]);
   const [error, setError] = useState(null);

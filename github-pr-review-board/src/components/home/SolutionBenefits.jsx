@@ -5,72 +5,73 @@ import { Icon } from "@iconify/react";
 
 export default function SolutionBenefits() {
   return (
-    <section className="w-full bg-gradient-to-b from-[#0c0f17] to-[#0d0f1c] text-white py-16 px-6">
+    <section className="flex flex-col items-center justify-center gap-12 bg-[#0A0A0F] bg-[linear-gradient(135deg,rgba(1,255,255,0.05)_0%,rgba(1,255,255,0)_50%,rgba(138,43,226,0.05)_100%)] text-white py-15 px-6 md:px-25 lg:px-35 xl:px-50">
       {/* Header */}
-      <div className="max-w-5xl mx-auto text-center mb-12">
-        <div className="flex items-center justify-center mb-4">
-          <div className="w-10 h-10 flex items-center justify-center rounded-md bg-[#1d2433]">
-            <Icon icon="solar:document-text-bold-duotone" className="text-cyan-400 text-xl" />
-          </div>
+      <div className="flex flex-col items-center justify-center gap-4 w-full ">
+        <div className="flex items-center justify-between gap-4 text-brand-primary w-full">
+          <div className="flex-1 border-t border-brand-primary"></div>
+          <Icon icon="solar:course-up-outline" width="40" height="40" color="#0A0A0F" className="p-2 bg-brand-primary"/>
+          <div className="flex-1 border-t border-brand-primary"></div>
         </div>
         <h2 className="text-2xl md:text-3xl font-bold tracking-wide">
           SOLUTION BENEFITS
         </h2>
-        <p className="text-gray-400 mt-4 text-sm md:text-base max-w-2xl mx-auto">
-          Transform your development workflow with comprehensive PR tracking
+        
+        <p className='bg-[#1E232D33] p-5 text-sm border-l-4 border-[#00FFFF] leading-relaxed text-[#9696AA] md:max-w-[550px]'>
+            Transform your development workflow with comprehensive PR tracking
           and team insights.
-        </p>
+          </p>
       </div>
-
       {/* Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  mx-auto items-stretch justify-center">
         {/* Card 1 */}
-        <div className="bg-[#111827] border border-cyan-500/50 rounded-xl shadow-lg hover:shadow-cyan-500/30 transition-all p-10">
-          <div className="mb-4 ">
-            <div className="w-12 h-12 flex items-center justify-center border-2 border-cyan-400">
-              <Icon icon="solar:calendar-outline" className="text-cyan-400 text-xl" />
-            </div>
-          </div>
-          <h3 className="text-cyan-400 text-lg font-semibold my-2">
-            REAL-TIME PR TRACKING
+        <div className="transition-all duration-500 hover:scale-105 group relative bg-[#01FFFF0D] flex flex-col items-start justify-center gap-4 p-8 border border-brand-primary">
+        <span className="absolute top-0 right-0 
+            border-t-[20px] border-l-[20px] 
+            border-t-brand-primary border-l-transparent"></span>
+          <Icon icon="solar:bolt-outline" width="40" height="40" className="transform group-hover:rotate-6 transition-transform duration-300 text-brand-primary border-1 p-2 bg-[#01FFFF1A] border-brand-primary"/>            
+          <h3 className="text-white tracking-wide text-lg font-semibold uppercase w-2/3">
+            real-time pr tracking
           </h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <p className="text-gray-400 text-sm leading-relaxed max-w-[224px]">
             Monitor current PRs awaiting for review with live status updates
             and automated notifications.
           </p>
         </div>
 
         {/* Card 2 */}
-        <div className="bg-[#111827] border border-purple-500/50 rounded-xl shadow-lg hover:shadow-purple-500/30 transition-all p-10">
-          <div className="mb-4 ">
-            <div className="w-12 h-12 flex items-center justify-center  border-2 border-purple-400">
-              <Icon icon="solar:chart-outline" className="text-purple-400 text-xl" />
-            </div>
-          </div>
-          <h3 className="text-purple-400 text-lg font-semibold my-2">
-            HISTORICAL INSIGHTS
-          </h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Track completed PR history and team performance metrics to
-            identify bottlenecks and optimize workflows.
+        <div className="duration-500 hover:scale-105 group relative bg-[#141923] flex flex-col items-start justify-center gap-4  transition-all p-8 border border-brand ">
+        <span className="absolute top-0 right-0 
+            border-t-[20px] border-l-[20px] 
+            border-t-brand border-l-transparent"></span>
+          <Icon icon="solar:chart-2-outline" width="40" height="40" className="transform group-hover:rotate-6 transition-transform duration-300 text-brand border-1 p-2 bg-[#8A2BE21A] border-brand"/>            
+          <h3 className="text-white tracking-wide text-lg font-semibold uppercase">
+            historical insights          
+            </h3>
+          <p className="text-gray-400 text-sm leading-relaxed max-w-[224px]">
+            Track completed PR history and
+            team performance metrics to
+            identify bottlenecks and optimize
+            workflow.
           </p>
         </div>
-
+        
+         
         {/* Card 3 */}
-        <div className="bg-[#111827] border border-pink-500/50 rounded-xl shadow-lg hover:shadow-pink-500/30 transition-all p-10">
-          <div className="mb-4">
-            <div className="w-12 h-12 flex items-center justify-center border-2 border-pink-400">
-              <Icon icon="solar:monitor-outline" className="text-pink-400 text-xl" />
-            </div>
-          </div>
-          <h3 className="text-pink-400 text-lg font-semibold my-2">
-            TEAM DASHBOARD
+        <div className="transition-all duration-500 hover:scale-105 group relative bg-[#FF00800D] flex flex-col items-start justify-center gap-4  p-8 border border-brand-secondary ">
+        <span className="absolute top-0 right-0 
+            border-t-[20px] border-l-[20px] 
+            border-t-brand-secondary border-l-transparent"></span>
+          <Icon icon="solar:users-group-rounded-outline" width="40" height="40" className="transform group-hover:rotate-6 transition-transform duration-300 text-brand-secondary border-1 p-2 bg-[#FF00801A] border-brand-secondary"/>            
+          <h3 className="text-white tracking-wide text-lg font-semibold uppercase">
+            team dashboard
           </h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <p className="text-gray-400 text-sm leading-relaxed max-w-[224px]">
             Customized views for GitHub repositories with role-based access
             and team-specific metrics.
           </p>
         </div>
+        
       </div>
     </section>
   );
