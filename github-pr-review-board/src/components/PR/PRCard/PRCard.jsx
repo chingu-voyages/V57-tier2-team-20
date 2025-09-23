@@ -24,9 +24,14 @@ export default function PRCard({ pr }) {
 
             {/* Author */}
             <div className='px-8 pt-3'>
-              <p className='bg-brand-primary/10 border border-brand-primary/20 text-white p-1 w-fit'>
+              <a
+                href={pr.authorUrl}
+                target='__blank'
+                rel='noopener noreferrer'
+                className='bg-brand-primary/10 border border-brand-primary/20 text-white p-1 w-fit'
+              >
                 {pr.author}
-              </p>
+              </a>
             </div>
           </div>
 
@@ -35,7 +40,18 @@ export default function PRCard({ pr }) {
             <PRCardItemsTitle text='Reviewers' />
             <div className='px-8 pt-3'>
               <p className='bg-brand/20 border border-brand/30 text-white p-1 w-fit'>
-                {pr.reviewers}
+                {pr.reviewers.length
+                  ? pr.reviewers.map((rev) => (
+                      <a
+                        key={rev.login}
+                        href={rev.url}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
+                        {rev.login}
+                      </a>
+                    ))
+                  : "None"}
               </p>
             </div>
           </div>

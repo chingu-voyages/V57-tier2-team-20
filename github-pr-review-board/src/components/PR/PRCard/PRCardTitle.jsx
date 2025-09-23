@@ -9,7 +9,15 @@ export default function PRCardTitle({ pr }) {
             icon='solar:document-add-outline'
             className='w-6.5 h-6.5 text-white border border-white shrink-0 p-1'
           />
-          <h3 className='text-lg uppercase'>{pr.title}</h3>
+          <h3 className='text-lg uppercase'>
+            <a
+              href={pr.pr_url}
+              target='__blank'
+              rel='noopener noreferrer'
+            >
+              {pr.title}
+            </a>
+          </h3>
           <Icon
             icon='solar:square-bottom-up-outline'
             className='w-4 h-4 shrink-0'
@@ -18,12 +26,24 @@ export default function PRCardTitle({ pr }) {
 
         {/* Branch from / to */}
         <div className='flex items-center flex-wrap gap-2 text-brand'>
-          {pr.fromBranch}
+          <a
+            href={pr.fromBranchUrl}
+            target='__blank'
+            rel='noopener noreferrer'
+          >
+            {pr.fromBranch}
+          </a>
           <Icon
             icon='solar:play-linear'
             className='w-3 h-3 text-brand/30'
           />
-          {pr.toBranch}
+          <a
+            href={pr.toBranchUrl}
+            target='__blank'
+            rel='noopener noreferrer'
+          >
+            {pr.toBranch}
+          </a>
         </div>
       </div>
 
