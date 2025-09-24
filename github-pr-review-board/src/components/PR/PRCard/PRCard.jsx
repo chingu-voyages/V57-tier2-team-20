@@ -28,7 +28,7 @@ export default function PRCard({ pr }) {
                 href={pr.authorUrl}
                 target='__blank'
                 rel='noopener noreferrer'
-                className='bg-brand-primary/10 border border-brand-primary/20 text-white p-1 w-fit'
+                className='block bg-brand-primary/10 border border-brand-primary/20 text-white p-1 w-fit'
               >
                 {pr.author}
               </a>
@@ -38,7 +38,7 @@ export default function PRCard({ pr }) {
           {/* Reviewers section */}
           <div className='p-4 border border-brand/30 text-brand'>
             <PRCardItemsTitle text='Reviewers' />
-            <div className='px-8 pt-3 text-white space-x-2'>
+            <div className='flex flex-wrap gap-2 px-8 pt-3 text-white'>
               {pr.reviewers.length ? (
                 pr.reviewers.map((rev) => (
                   <a
@@ -46,7 +46,7 @@ export default function PRCard({ pr }) {
                     href={rev.url}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='bg-brand/20 border border-brand/30 p-1 w-fit'
+                    className='block bg-brand/20 border border-brand/30 p-1 w-fit whitespace-nowrap'
                   >
                     {rev.login}
                   </a>
