@@ -1,6 +1,6 @@
 import { test, expect, describe } from "vitest"
 import { render, screen } from "@testing-library/react"
-import Header from "./Header.jsx"
+import Header from "../../components/Header.jsx"
 import { MemoryRouter } from "react-router-dom"
 
 describe("Header component", () => {

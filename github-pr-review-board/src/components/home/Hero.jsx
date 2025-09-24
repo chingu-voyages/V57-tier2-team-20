@@ -1,7 +1,16 @@
 import { Icon } from "@iconify/react";
+import Modal from "./Modal";
+import { useState } from "react";
 
 export default function Hero() {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModal = () => {
+    setShowModal((open) => !open);
+  };
+
   return (
+
     <section className='flex flex-col items-center justify-center relative py-15 px-3 bg-background bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[length:50px_50px] overflow-hidden'>
        {/* Floating animated squares */}
       <div className="absolute bottom-30 left-5 md:top-50 md:left-10 w-12 h-12 border border-[#8A2BE24D] bg-[#8A2BE21A] animate-float-slow"></div>
@@ -18,16 +27,20 @@ export default function Hero() {
               track your team's progress
           </p>
 
+
           <p className='bg-[#1E232D33] p-5 text-sm border-l-4 border-[#00FFFF] leading-relaxed text-[#9696AA] w-7/8 md:max-w-[550px]'>
             Stop waiting on PR reviews. Get visibility into your team's GitHub
             Pull Requests with a customized dashboard designed for development
             teams.
           </p>
 
+
         <div className='flex flex-col gap-10'>
           <button className='group py-4 px-6 cursor-pointer flex text-sm  items-center bg-[#0A0A0F] justify-center gap-2 border tracking-widest uppercase text-brand-primary border-brand-
           hover:bg-brand-primary hover:text-[#0A0A0F] hover:border-[#0A0A0F]
-          transition duration-300 ease-in-out' >
+          transition duration-300 ease-in-out'        
+          onClick={handleModal}
+             >
               <Icon icon='solar:flashlight-outline' color="#00ffff" width="20" height="20" className="group-hover:hidden"/>
               <Icon icon="solar:flashlight-on-outline" width="20" height="20"className="hidden group-hover:block"/>
               Initialize System
@@ -40,6 +53,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
+      <Modal showModal={showModal} setShowModal={setShowModal} />
     </section>
   );
 }

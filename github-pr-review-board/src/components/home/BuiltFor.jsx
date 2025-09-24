@@ -31,7 +31,7 @@ export default function BuiltFor() {
   ];
 
   return (
-    <section className=' relative flex items-center  bg-background bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[length:50px_50px] py-12 px-3 md:px-6'>
+    <section className=' relative flex items-center  bg-background bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[length:50px_50px] py-12 px-3 md:px-6' data-testid="build-for-root">
       <div className="absolute inset-0 bg-gradient-to-r from-[rgba(1,255,255,0.05)] via-[rgba(1,255,255,0)] to-[rgba(255,0,128,0.05)] pointer-events-none"></div>
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-9">
         <div className="flex flex-col items-start justify-center gap-6 max-w-md">
