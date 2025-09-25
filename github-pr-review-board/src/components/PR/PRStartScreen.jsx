@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-import RepoModal from "./RepoModal";
-//import PRList from "./PRList";
 import OpenedPRs from "../../pages/OpenPRs";
+import Modal from "../home/Modal";
+
+import { usePrDetails } from "../../context/PrDetailsContext";
 
 export default function PRStartScreen() {
   const [showModal, setShowModal] = useState(false);
-  //const [prs, setPrs] = useState(null); // null = not loaded yet
-  const [repoData, setRepoData] = useState(null);
+  const { newPrDetails } = usePrDetails();
+  const repoData = !!(newPrDetails?.orgName && newPrDetails?.repoName);
+
   return (
     <section className='flex flex-col items-center justify-center relative p-8 bg-background bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[length:50px_50px] overflow-hidden'>
       {/* Floating animated squares */}
@@ -45,20 +47,16 @@ export default function PRStartScreen() {
           </button>
         </div>
       ) : (
-        // <PRList prs={prs} />
         <OpenedPRs
-          org={repoData.org}
-          repo={repoData.repo}
+          org={newPrDetails.orgName}
+          repo={newPrDetails.repoName}
         />
       )}
       {/* Popup Modal */}
       {showModal && (
-        <RepoModal
-          onClose={() => setShowModal(false)}
-          onSuccess={(org, repo) => {
-            setRepoData({ org, repo }); // save PRs
-            setShowModal(false); // close modal
-          }}
+        <Modal
+          showModal={showModal}
+          setShowModal={setShowModal}
         />
       )}
     </section>

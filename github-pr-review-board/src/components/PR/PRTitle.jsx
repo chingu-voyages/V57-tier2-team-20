@@ -1,5 +1,5 @@
-import Button1 from "../Button1";
-import Button2 from "../Button2";
+import Button1 from "../PrimaryButton";
+import Button2 from "../SecondaryButton";
 import { Icon } from "@iconify/react";
 
 export default function PRTitle({ org, repo, orgUrl, repoUrl, onRefresh }) {
