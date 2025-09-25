@@ -8,6 +8,7 @@
   --color-background: #0a0a0f;
   --color-text: #9696aa;
   --color-card: #141923;
+  --color-mutted: #1e232d;
 
   --gradient: linear-gradient(
     90deg,
@@ -16,8 +17,6 @@
     rgba(255, 0, 128, 0.05) 100%
   );
 }
-
-
 
 body {
   font-family: "Inter", sans-serif;
@@ -33,7 +32,8 @@ body {
 
 /* Custom floating animation */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
   50% {
