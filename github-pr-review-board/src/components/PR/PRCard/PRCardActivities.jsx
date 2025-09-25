@@ -1,5 +1,6 @@
 import PRCardItemsTitle from "./PRCardItemsTitle";
 import { Icon } from "@iconify/react";
+import { timeAgo } from "../../../utils/dateConverter";
 
 export default function PRCardActivities({ activities }) {
   return (
@@ -23,8 +24,7 @@ export default function PRCardActivities({ activities }) {
                 icon='solar:play-outline'
                 className='w-3 h-3 text-brand/30'
               />
-              {act.user}
-              {new Date(act.created_at).toLocaleString()}
+              {timeAgo(act.created_at)}
             </div>
           ))}
       </div>
