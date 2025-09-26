@@ -35,7 +35,7 @@ export default function PRCardTitle({ pr }) {
         </div>
 
         {/* Branch from / to */}
-        <div className='flex items-center flex-wrap gap-2 text-brand'>
+        <div className='flex items-center flex-wrap gap-2 text-brand px-9'>
           <a
             href={pr.fromBranchUrl}
             target='__blank'
