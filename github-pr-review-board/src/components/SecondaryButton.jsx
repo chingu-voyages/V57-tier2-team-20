@@ -1,16 +1,20 @@
 import { Icon } from "@iconify/react";
 
-export default function Button2({ icon, text, onClick }) {
+export default function SecondaryButton({ error = false, onClick }) {
   return (
     <button
-      className='flex items-center gap-2 text-brand border-2 border-brand/30 px-3 py-1.5 cursor-pointer transition duration-500 hover:bg-brand/20 hover:text-white hover:border-brand/30'
+      className={`flex items-center gap-2 border-2 px-3 py-1.5 text-xs cursor-pointer transition duration-500 hover:text-white ${
+        error
+          ? "text-brand-secondary border-brand-secondary/30 hover:bg-brand-secondary/20 hover:border-brand-secondary/30"
+          : "text-brand border-brand/30 hover:bg-brand/20 hover:border-brand/30"
+      }`}
       onClick={onClick}
     >
       <Icon
-        icon={icon}
+        icon='solar:sort-vertical-outline'
         className='w-5 h-5'
       />
-      {text}
+      Change repo
     </button>
   );
 }

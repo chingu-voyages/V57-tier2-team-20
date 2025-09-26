@@ -1,5 +1,5 @@
-import Button1 from "../PrimaryButton";
-import Button2 from "../SecondaryButton";
+import PrimaryButton from "../PrimaryButton";
+import SecondaryButton from "../SecondaryButton";
 import { Icon } from "@iconify/react";
 
 export default function PRTitle({ org, repo, orgUrl, repoUrl, onRefresh }) {
@@ -31,15 +31,11 @@ export default function PRTitle({ org, repo, orgUrl, repoUrl, onRefresh }) {
               {repo}
             </a>
           </div>
-          <Button2
-            icon='solar:sort-vertical-outline'
-            text='Change repo'
-            onClick={null}
-          />
+          <SecondaryButton onClick={null} />
         </div>
       </div>
 
-      <Button1
+      <PrimaryButton
         icon='solar:refresh-square-outline'
         text='Refresh'
         onClick={onRefresh}
