@@ -16,7 +16,7 @@ export default function Modal({ showModal, setShowModal }) {
   const [showOrgDropdown, setShowOrgDropdown] = useState(false);
   const [showRepoDropdown, setShowRepoDropdown] = useState(false);
 
-  const pattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  const pattern = /^[A-Za-z0-9]+(?:[-_][A-Za-z0-9]+)*$/;
   const isValid = (value) => pattern.test(value);
   const isFormValid = isValid(orgName) && isValid(repoName);
 
@@ -117,8 +117,8 @@ export default function Modal({ showModal, setShowModal }) {
   return (
     <>
       {showModal && (
-        <div className="md:w-[400px] z-[50] md:m-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="flex items-center justify-between border border-[var(--color-brand-primary)] bg-[var(--color-card)] p-[16px]">
+        <div className=" z-[9999] inset-0  flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm fixed">
+          <div className="md:w-[400px] flex items-center justify-between border border-[var(--color-brand-primary)] bg-[var(--color-card)] p-[16px]">
             <h3 className="text-white uppercase font-bold text-[18px]">
               Initialize Repository
             </h3>
@@ -134,7 +134,7 @@ export default function Modal({ showModal, setShowModal }) {
             </button>
           </div>
 
-          <div className="bg-[var(--color-card)] p-[16px] border border-t-0 border-[var(--color-brand-primary)]">
+          <div className="md:w-[400px] bg-[var(--color-card)] p-[16px] border border-t-0 border-[var(--color-brand-primary)]">
             <form
               onSubmit={handleSubmit}
               className="flex flex-col gap-10 modal"

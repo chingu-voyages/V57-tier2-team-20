@@ -39,6 +39,7 @@ export default function OpenedPRs({ org, repo }) {
         orgUrl={prList[0]?.orgUrl}
         repoUrl={prList[0]?.repoUrl}
         onRefresh={loadPRs}
+        title= "open pr requests"
       />
 
       {/* PR List or Error screen */}
