@@ -13,16 +13,3 @@ export default function Message({ title, text }) {
     </>
   );
 }
-
-{
-  /* <Icon
-        icon='solar:folder-open-outline'
-        className='w-16 h-16'
-      />
-      <div className='space-y-3'>
-        <h2 className='capitalize text-3xl md:text-5xl font-bold'>
-          No Open Pull Requests
-        </h2>
-        <p>This repository currently has no open pull requests</p>
-      </div> */
-}
