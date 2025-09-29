@@ -32,7 +32,7 @@ export default function OpenedPRs({ org, repo }) {
   };
 
   return (
-    <section className='w-full lg:px-22 space-y-6 text-sm z-10'>
+    <section className="w-full lg:px-22 space-y-6 text-sm z-10">
       <Title
         org={org}
         repo={repo}
