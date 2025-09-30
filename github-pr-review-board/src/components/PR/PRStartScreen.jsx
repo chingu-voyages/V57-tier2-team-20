@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import OpenedPRs from "../../pages/OpenPRs";
 import Modal from "../home/Modal";
 import Message from "../PR/Message";
+import PrimaryButton from "../PrimaryButton";
 
 import { usePrDetails } from "../../context/PrDetailsContext";
 
@@ -24,18 +25,12 @@ export default function PRStartScreen() {
             title='open PRs dashboard'
             text='Initialize a repository from the home page to view open pull'
           />
-          <button
-            className='flex items-center justify-center gap-2 bg-brand-primary px-4 py-2 text-sm text-mutted'
+
+          <PrimaryButton
+            icon='solar:add-circle-outline'
+            text='New Repo'
             onClick={() => setShowModal(true)}
-          >
-            <Icon
-              icon='solar:add-circle-outline'
-              width='22'
-              height='22'
-              color='black'
-            />
-            New Repo
-          </button>
+          />
         </div>
       ) : (
         <OpenedPRs
