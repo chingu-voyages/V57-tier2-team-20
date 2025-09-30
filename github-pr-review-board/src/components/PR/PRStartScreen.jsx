@@ -34,7 +34,7 @@ export default function PRStartScreen() {
           <PrimaryButton
             icon='solar:add-circle-outline'
             text='New Repo'
-            onClick={() => setShowModal(true)}
+            onClick={handleModal}
           />
 
         </div>
