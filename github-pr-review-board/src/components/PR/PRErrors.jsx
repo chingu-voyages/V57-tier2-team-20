@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import SecondaryButton from "../SecondaryButton";
+import { getErrorMessage } from "../../utils/errorMessages";
 
 export default function PRErrors({ err }) {
   return (
@@ -9,7 +10,7 @@ export default function PRErrors({ err }) {
           icon='solar:danger-triangle-linear'
           className='w-6 h-6 shrink-0'
         />
-        Repository not found or not accessible <br />
+        {getErrorMessage(err)}
         {/* {" Error: " + err?.message || "Unknown error"} */}
       </div>
       <SecondaryButton error={true} />
