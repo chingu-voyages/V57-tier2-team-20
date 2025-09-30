@@ -1,8 +1,9 @@
 import { Icon } from "@iconify/react";
 import { useState, useEffect } from "react";
 import { usePrDetails } from "../../context/PrDetailsContext";
+import { useModal } from "../../context/ModalContext";
 
-export default function Modal({ showModal, setShowModal }) {
+export default function Modal() {
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
   const { newPrDetails, setNewPrDetails } = usePrDetails();
@@ -16,7 +17,9 @@ export default function Modal({ showModal, setShowModal }) {
   const [showOrgDropdown, setShowOrgDropdown] = useState(false);
   const [showRepoDropdown, setShowRepoDropdown] = useState(false);
 
-  const pattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  const { showModal, setShowModal } = useModal();
+
+  const pattern = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/;
   const isValid = (value) => pattern.test(value);
   const isFormValid = isValid(orgName) && isValid(repoName);
 
@@ -117,7 +120,7 @@ export default function Modal({ showModal, setShowModal }) {
   return (
     <>
       {showModal && (
-        <div className="md:w-[400px] z-[50] md:m-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="md:w-[400px] z-[65] md:m-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="flex items-center justify-between border border-[var(--color-brand-primary)] bg-[var(--color-card)] p-[16px]">
             <h3 className="text-white uppercase font-bold text-[18px]">
               Initialize Repository
@@ -292,7 +295,7 @@ export default function Modal({ showModal, setShowModal }) {
       {showModal && (
         <div
           onClick={handleCloseModal}
-          className="absolute z-[45] top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)] backdrop-blur-[3px]"
+          className="absolute z-[60] top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)] backdrop-blur-[3px]"
         ></div>
       )}
     </>
