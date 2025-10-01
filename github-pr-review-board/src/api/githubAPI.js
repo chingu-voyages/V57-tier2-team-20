@@ -76,6 +76,8 @@ export async function getPullRequests(org, repo, state) {
         }))
       : [],
     activities: null,
+    state:pr.state,
+    merged:pr.merged_at
   }));
 
   //With activities

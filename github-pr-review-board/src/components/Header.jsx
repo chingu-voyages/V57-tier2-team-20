@@ -5,11 +5,11 @@ import { useState } from "react";
 
 export default function Header() {
   const today = new Date();
-  const formattedDate = today.toLocaleDateString("en-US", {
+  const formattedDate = today?.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
-  });
+  }) || "Date unavailable";
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -62,8 +62,22 @@ export default function Header() {
           `}
         >
           {/* Mobile date (only visible on mobile when menu is open) */}
-          <div className="flex items-center justify-center text-text mb-2 md:hidden border-1 border-[#01FFFF33] px-4 py-2">
-            <Icon icon="solar:clock-circle-linear" width="24" height="24" />
+          <div className={`flex items-center justify-center text-text mb-2 md:hidden border-1 border-[#01FFFF33] px-4 py-2
+            ${formattedDate === "Date unavailable"
+            ? "border-warning/20 text-warning/20"
+            : "border-brand-primary/30 text-text"
+            }
+            `}>
+            <Icon
+            icon={
+              formattedDate === "Date unavailable"
+                ? "solar:history-3-broken" // a different icon for unavailable
+                : "solar:clock-circle-outline" // normal icon
+            }
+            width="24"
+            height="24"
+            color={formattedDate === "Date unavailable" ? "brand-warning" : "text"} 
+            />
             <p className="uppercase text-sm ml-2">{formattedDate}</p>
           </div>
 
@@ -105,8 +119,22 @@ export default function Header() {
           </NavLink>
         </div>
          {/* Desktop date (always visible on md+) */}
-        <div className="hidden md:flex items-center text-text border-1 border-[#01FFFF33] px-4 py-2 ml-4">
-          <Icon icon="solar:clock-circle-outline" width="24" height="24" />          
+        <div className={`hidden md:flex items-center text-text border-1 border-[#01FFFF33] px-4 py-2 ml-4
+            ${formattedDate === "Date unavailable"
+            ? "border-warning/30 text-warning/20"
+            : "border-[#01FFFF33] text-text"
+            }
+          `}>
+          <Icon
+            icon={
+              formattedDate === "Date unavailable"
+                ? "solar:history-3-broken" // a different icon for unavailable
+                : "solar:clock-circle-outline" // normal icon
+            }
+            width="24"
+            height="24"
+            color={formattedDate === "Date unavailable" ? "brand-warning" : "text"} 
+            />         
           <p className="uppercase text-sm ml-2">{formattedDate}</p>
         </div>
       </nav>

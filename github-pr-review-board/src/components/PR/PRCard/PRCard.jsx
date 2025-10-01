@@ -4,8 +4,18 @@ import PRCardActivities from "./PRCardActivities";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function PRCard({ pr }) {
+  // Determine PR status
+  let status = "";
+  if (pr.state === "open") status = "Open";
+  else if (pr.state === "closed" && pr.merged) status = "Merged";
+  else status = "Unmerged"; // closed but not merged
+ const cardColors = {
+  Open: "bg-card border-brand-primary/20",
+  Merged: "bg-card border-brand-primary/20",
+  Unmerged: "bg-card border-brand-secondary/20",
+};
   return (
-    <div className='p-6 bg-card border border-brand-primary/20 space-y-3'>
+    <div className={`p-6 bg-card border ${cardColors[status]} space-y-3`}>
       <PRCardTitle pr={pr} />
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3 text-left'>
         <div className='space-y-3 uppercase'>

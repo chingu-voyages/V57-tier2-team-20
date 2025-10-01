@@ -1,9 +1,9 @@
 import { Icon } from "@iconify/react";
-export default function Message({ title, text }) {
+export default function Message({ icon, title, text }) {
   return (
     <>
       <Icon
-        icon='solar:folder-open-outline'
+        icon={icon}
         className='w-16 h-16'
       />
       <div className='flex flex-col justify-center items-center gap-3'>

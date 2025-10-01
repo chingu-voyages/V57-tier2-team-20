@@ -20,11 +20,37 @@ function App() {
           />
           <Route
             path='open-prs'
-            element={<PRStartScreen />}
+            element={
+              <PRStartScreen
+                title='Open PRs Dashboard'
+                description='Initialize a repository from the home page to view open pull'
+                icon='solar:folder-open-outline'
+                ContentComponent={OpenPRs}
+                theme={{
+                  primary: "bg-brand-primary",
+                  icon: "text-text",
+                  text: "text-text",
+                  border: "border-brand-primary/20",
+                }}
+              />
+            }
           />
           <Route
             path='closed-prs'
-            element={<ClosedPRs />}
+            element={
+              <PRStartScreen
+                title='Closed Pull Requests'
+                description='Initialize a repository from the home page to view closed pull requests'
+                icon='solar:folder-check-outline'
+                ContentComponent={ClosedPRs}
+                theme={{
+                  primary: "bg-brand-secondary",
+                  icon: "text-brand-secondary", // bright pink
+                  text: "text-brand-secondary",
+                  border: "border-brand-secondary/20",
+                }}
+              />
+            }
           />
         </Route>
         <Route
