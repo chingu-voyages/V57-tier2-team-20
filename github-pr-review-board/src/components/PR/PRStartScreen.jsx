@@ -11,7 +11,7 @@ export default function PRStartScreen({
   title,
   description,
   icon,
-  EmptyComponent,
+  ContentComponent,
   theme = {
     primary: "bg-brand-primary", // default cyan
     icon: "white",
@@ -51,7 +51,7 @@ export default function PRStartScreen({
           />
         </div>
       ) : (
-        <EmptyComponent
+        <ContentComponent
           org={newPrDetails.orgName}
           repo={newPrDetails.repoName}
         />

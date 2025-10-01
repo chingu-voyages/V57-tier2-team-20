@@ -25,7 +25,7 @@ function App() {
                 title='Open PRs Dashboard'
                 description='Initialize a repository from the home page to view open pull'
                 icon='solar:folder-open-outline'
-                EmptyComponent={OpenPRs}
+                ContentComponent={OpenPRs}
                 theme={{
                   primary: "bg-brand-primary",
                   icon: "text-text",
@@ -42,7 +42,7 @@ function App() {
                 title='Closed Pull Requests'
                 description='Initialize a repository from the home page to view closed pull requests'
                 icon='solar:folder-check-outline'
-                EmptyComponent={ClosedPRs}
+                ContentComponent={ClosedPRs}
                 theme={{
                   primary: "bg-brand-secondary",
                   icon: "text-brand-secondary", // bright pink
