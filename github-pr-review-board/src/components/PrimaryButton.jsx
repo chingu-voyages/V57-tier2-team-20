@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 
-export default function Button1({
+export default function PrimaryButton({
   icon,
   text,
   color,
