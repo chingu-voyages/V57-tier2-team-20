@@ -3,12 +3,14 @@ import { getPullRequests } from "../api/githubAPI";
 import PRList from "../components/PR/PRList";
 import PRErrors from "../components/PR/PRErrors";
 import Title from "../components/PR/PRTitle";
+import PRnoData from "../components/PR/PRnoData";
+import PRAnimationGrid from "../components/PR/PRAnimationGrid";
 
 export default function OpenedPRs({ org, repo }) {
   // const org = import.meta.env.VITE_GITHUB_ORG;
   // const repo = import.meta.env.VITE_GITHUB_REPO;
   const state = "open";
-  const [prList, setPrList] = useState([]);
+  const [prList, setPrList] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -22,6 +24,8 @@ export default function OpenedPRs({ org, repo }) {
 
       //Save PRs into prList
       setPrList(formattedPRList);
+      //setPrList([]);
+
       //Clear errors
       setError(null);
     } catch (err) {
@@ -32,18 +36,25 @@ export default function OpenedPRs({ org, repo }) {
   };
 
   return (
-    <section className='w-full lg:px-22 space-y-6 text-sm z-10'>
+    <section className="w-full lg:px-22 space-y-6 text-sm z-10">
       <Title
         org={org}
         repo={repo}
-        orgUrl={prList[0]?.orgUrl}
-        repoUrl={prList[0]?.repoUrl}
+        orgUrl={prList?.[0]?.orgUrl}
+        repoUrl={prList?.[0]?.repoUrl}
         onRefresh={loadPRs}
         title= "open pr requests"
       />
 
-      {/* PR List or Error screen */}
-      {error ? <PRErrors err={error} /> : <PRList prList={prList} />}
+      {error ? (
+        <PRErrors err={error} />
+      ) : prList === null ? (
+        <PRAnimationGrid />
+      ) : prList && prList.length === 0 ? (
+        <PRnoData />
+      ) : (
+        <PRList prList={prList} />
+      )}
     </section>
   );
 }

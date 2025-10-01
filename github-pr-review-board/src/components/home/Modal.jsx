@@ -1,8 +1,9 @@
 import { Icon } from "@iconify/react";
 import { useState, useEffect } from "react";
 import { usePrDetails } from "../../context/PrDetailsContext";
+import { useModal } from "../../context/ModalContext";
 
-export default function Modal({ showModal, setShowModal }) {
+export default function Modal() {
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
   const { newPrDetails, setNewPrDetails } = usePrDetails();
@@ -16,7 +17,11 @@ export default function Modal({ showModal, setShowModal }) {
   const [showOrgDropdown, setShowOrgDropdown] = useState(false);
   const [showRepoDropdown, setShowRepoDropdown] = useState(false);
 
-  const pattern = /^[A-Za-z0-9]+(?:[-_][A-Za-z0-9]+)*$/;
+  // const pattern = /^[A-Za-z0-9]+(?:[-_][A-Za-z0-9]+)*$/;   //closed-pr
+  const { showModal, setShowModal } = useModal();
+
+  const pattern = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/;
+
   const isValid = (value) => pattern.test(value);
   const isFormValid = isValid(orgName) && isValid(repoName);
 
@@ -117,32 +122,32 @@ export default function Modal({ showModal, setShowModal }) {
   return (
     <>
       {showModal && (
-        <div className=" z-[9999] inset-0  flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm fixed">
-          <div className="md:w-[400px] flex items-center justify-between border border-[var(--color-brand-primary)] bg-[var(--color-card)] p-[16px]">
-            <h3 className="text-white uppercase font-bold text-[18px]">
+        <div className=' z-[9999] inset-0  flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm fixed'>
+          <div className='md:w-[400px] flex items-center justify-between border border-[var(--color-brand-primary)] bg-[var(--color-card)] p-[16px]'>
+            <h3 className='text-white uppercase font-bold text-[18px]'>
               Initialize Repository
             </h3>
             <button
               onClick={handleCloseModal}
-              className="cursor-pointer"
-              type="button"
+              className='cursor-pointer'
+              type='button'
             >
               <Icon
-                icon="solar:close-circle-outline"
-                className="text-[var(--color-text)] h-[24px] w-[24px] hover:text-white"
+                icon='solar:close-circle-outline'
+                className='text-[var(--color-text)] h-[24px] w-[24px] hover:text-white'
               />
             </button>
           </div>
 
-          <div className="md:w-[400px] bg-[var(--color-card)] p-[16px] border border-t-0 border-[var(--color-brand-primary)]">
+          <div className='md:w-[400px] bg-[var(--color-card)] p-[16px] border border-t-0 border-[var(--color-brand-primary)]'>
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col gap-10 modal"
+              className='flex flex-col gap-10 modal'
             >
-              <div className="flex flex-col gap-6">
+              <div className='flex flex-col gap-6'>
                 {/* ORG */}
-                <div className="flex flex-col gap-[8px] relative">
-                  <label className="text-white uppercase text-[12px]">
+                <div className='flex flex-col gap-[8px] relative'>
+                  <label className='text-white uppercase text-[12px]'>
                     github_org
                   </label>
 
@@ -153,19 +158,19 @@ export default function Modal({ showModal, setShowModal }) {
                     onBlur={() =>
                       setTimeout(() => setShowOrgDropdown(false), 150)
                     }
-                    type="text"
-                    placeholder="ENTER VALID ORG NAME..."
+                    type='text'
+                    placeholder='ENTER VALID ORG NAME...'
                     className={`p-[10px] text-white text-[14px] placeholder:text-[var(--color-text)] ${
                       orgName && !isValid(orgName) ? "border-[#ff00804d]" : ""
                     }`}
                   />
 
                   {showOrgDropdown && orgSuggestions.length > 0 && (
-                    <ul className="absolute top-full mt-1 bg-[var(--color-card)] border border-gray-600 max-h-32 overflow-y-auto w-full z-10">
+                    <ul className='absolute top-full mt-1 bg-[var(--color-card)] border border-gray-600 max-h-32 overflow-y-auto w-full z-10'>
                       {orgSuggestions.map((org, idx) => (
                         <li
                           key={idx}
-                          className="p-2 text-sm text-white cursor-pointer hover:bg-gray-700"
+                          className='p-2 text-sm text-white cursor-pointer hover:bg-gray-700'
                           onMouseDown={() => handleOrgSelect(org)} // onMouseDown so selection happens before blur
                         >
                           {org}
@@ -177,18 +182,18 @@ export default function Modal({ showModal, setShowModal }) {
                   <div>
                     {orgName ? (
                       !isValid(orgName) ? (
-                        <div className="flex items-center gap-2 text-[var(--color-brand-secondary)] text-[12px]">
+                        <div className='flex items-center gap-2 text-[var(--color-brand-secondary)] text-[12px]'>
                           <Icon
-                            icon="solar:danger-triangle-outline"
-                            className="w-[16px] h-[16px]"
+                            icon='solar:danger-triangle-outline'
+                            className='w-[16px] h-[16px]'
                           />
                           <p>Enter a valid organization name</p>
                         </div>
                       ) : (
-                        <div className="flex items-center gap-2 text-[var(--color-brand-primary)] text-[12px]">
+                        <div className='flex items-center gap-2 text-[var(--color-brand-primary)] text-[12px]'>
                           <Icon
-                            icon="solar:check-circle-outline"
-                            className="w-[16px] h-[16px]"
+                            icon='solar:check-circle-outline'
+                            className='w-[16px] h-[16px]'
                           />
                           <p>Valid organization name</p>
                         </div>
@@ -198,8 +203,8 @@ export default function Modal({ showModal, setShowModal }) {
                 </div>
 
                 {/* REPO */}
-                <div className="flex flex-col gap-[8px] relative">
-                  <label className="text-white uppercase text-[12px]">
+                <div className='flex flex-col gap-[8px] relative'>
+                  <label className='text-white uppercase text-[12px]'>
                     github_repo_name
                   </label>
 
@@ -210,19 +215,19 @@ export default function Modal({ showModal, setShowModal }) {
                     onBlur={() =>
                       setTimeout(() => setShowRepoDropdown(false), 150)
                     }
-                    type="text"
-                    placeholder="ENTER VALID REPO NAME..."
+                    type='text'
+                    placeholder='ENTER VALID REPO NAME...'
                     className={`p-[10px] text-white text-[14px] placeholder:text-[var(--color-text)] ${
                       repoName && !isValid(repoName) ? "border-[#ff00804d]" : ""
                     }`}
                   />
 
                   {showRepoDropdown && repoSuggestions.length > 0 && (
-                    <ul className="absolute top-full mt-1 bg-[var(--color-card)] border border-gray-600 max-h-32 overflow-y-auto w-full z-10">
+                    <ul className='absolute top-full mt-1 bg-[var(--color-card)] border border-gray-600 max-h-32 overflow-y-auto w-full z-10'>
                       {repoSuggestions.map((repo, idx) => (
                         <li
                           key={idx}
-                          className="p-2 text-sm text-white cursor-pointer hover:bg-gray-700"
+                          className='p-2 text-sm text-white cursor-pointer hover:bg-gray-700'
                           onMouseDown={() => handleRepoSelect(repo)}
                         >
                           {repo}
@@ -234,18 +239,18 @@ export default function Modal({ showModal, setShowModal }) {
                   <div>
                     {repoName ? (
                       !isValid(repoName) ? (
-                        <div className="flex items-center gap-2 text-[var(--color-brand-secondary)] text-[12px]">
+                        <div className='flex items-center gap-2 text-[var(--color-brand-secondary)] text-[12px]'>
                           <Icon
-                            icon="solar:danger-triangle-outline"
-                            className="w-[16px] h-[16px]"
+                            icon='solar:danger-triangle-outline'
+                            className='w-[16px] h-[16px]'
                           />
                           <p>Enter a valid repository name</p>
                         </div>
                       ) : (
-                        <div className="flex items-center gap-2 text-[var(--color-brand-primary)] text-[12px]">
+                        <div className='flex items-center gap-2 text-[var(--color-brand-primary)] text-[12px]'>
                           <Icon
-                            icon="solar:check-circle-outline"
-                            className="w-[16px] h-[16px]"
+                            icon='solar:check-circle-outline'
+                            className='w-[16px] h-[16px]'
                           />
                           <p>Valid repository name</p>
                         </div>
@@ -255,23 +260,23 @@ export default function Modal({ showModal, setShowModal }) {
                 </div>
               </div>
 
-              <p className="text-[var(--color-text)] text-[13px] border border-[var(--color-brand)] border-l-[5px] p-[12px] pl-[16px]">
+              <p className='text-[var(--color-text)] text-[13px] border border-[var(--color-brand)] border-l-[5px] p-[12px] pl-[16px]'>
                 Enter the GitHub organization/username and repository name to
                 track pull requests. The repository must be publicly accessible.
               </p>
 
-              <div className="place-self-end">
-                <div className="flex items-center gap-4">
+              <div className='place-self-end'>
+                <div className='flex items-center gap-4'>
                   <button
-                    type="button"
+                    type='button'
                     onClick={handleCloseModal}
-                    className="shadow-[inset_0_0_0_1px_#00ffff] px-[16px] text-[14px] py-[8px] text-[var(--color-text)] cursor-pointer hover:shadow-none delay-75 transition-all"
+                    className='shadow-[inset_0_0_0_1px_#00ffff] px-[16px] text-[14px] py-[8px] text-[var(--color-text)] cursor-pointer hover:shadow-none delay-75 transition-all'
                   >
                     Cancel
                   </button>
 
                   <button
-                    type="submit"
+                    type='submit'
                     disabled={!isFormValid}
                     className={`text-[14px] px-[16px] py-[8px] ${
                       isFormValid
@@ -292,7 +297,7 @@ export default function Modal({ showModal, setShowModal }) {
       {showModal && (
         <div
           onClick={handleCloseModal}
-          className="absolute z-[45] top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)] backdrop-blur-[3px]"
+          className='absolute z-[45] top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)] backdrop-blur-[3px]'
         ></div>
       )}
     </>
