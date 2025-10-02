@@ -25,8 +25,6 @@ export default function Modal() {
   const isValid = (value) => pattern.test(value);
   const isFormValid = isValid(orgName) && isValid(repoName);
 
-  console.log(newPrDetails);
-
   useEffect(() => {
     if (!showModal) return;
     const orgs = JSON.parse(localStorage.getItem("orgs") || "[]");
@@ -100,6 +98,7 @@ export default function Modal() {
     if (!isValid(orgName) || !isValid(repoName)) return;
 
     const prDetails = { orgName, repoName };
+    localStorage.setItem("currentOrgRepo", JSON.stringify(prDetails));
     setNewPrDetails(prDetails);
 
     const updatedOrgs = Array.from(new Set([...(savedOrgs || []), orgName]));
