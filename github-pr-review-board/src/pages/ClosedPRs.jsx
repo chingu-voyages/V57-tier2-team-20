@@ -5,15 +5,14 @@ import PRErrors from "../components/PR/PRErrors";
 import Title from "../components/PR/PRTitle";
 
 export default function ClosedPRs({ org, repo }) {
-  // const org = import.meta.env.VITE_GITHUB_ORG;
-  // const repo = import.meta.env.VITE_GITHUB_REPO;
   const state = "close";
   const [prList, setPrList] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!org || !repo) return;
     loadPRs();
-  }, []);
+  }, [org, repo]);
 
   //Load PR List
   const loadPRs = async () => {
@@ -39,8 +38,8 @@ export default function ClosedPRs({ org, repo }) {
         orgUrl={prList[0]?.orgUrl}
         repoUrl={prList[0]?.repoUrl}
         onRefresh={loadPRs}
-        title="closed pr requests"
-        variant="close"   
+        title='closed pr requests'
+        variant='close'
       />
 
       {/* PR List or Error screen */}
