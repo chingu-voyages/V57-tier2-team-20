@@ -3,10 +3,12 @@ import { getPullRequests } from "../api/githubAPI";
 import PRList from "../components/PR/PRList";
 import PRErrors from "../components/PR/PRErrors";
 import Title from "../components/PR/PRTitle";
+import PRnoData from "../components/PR/PRnoData";
+import PRAnimationGrid from "../components/PR/PRAnimationGrid";
 
 export default function ClosedPRs({ org, repo }) {
   const state = "close";
-  const [prList, setPrList] = useState([]);
+  const [prList, setPrList] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -35,15 +37,22 @@ export default function ClosedPRs({ org, repo }) {
       <Title
         org={org}
         repo={repo}
-        orgUrl={prList[0]?.orgUrl}
-        repoUrl={prList[0]?.repoUrl}
+        orgUrl={prList?.[0]?.orgUrl}
+        repoUrl={prList?.[0]?.repoUrl}
         onRefresh={loadPRs}
         title='closed pr requests'
         variant='close'
       />
 
-      {/* PR List or Error screen */}
-      {error ? <PRErrors err={error} /> : <PRList prList={prList} />}
+      {error ? (
+        <PRErrors err={error} />
+      ) : prList === null ? (
+        <PRAnimationGrid state='close' />
+      ) : prList && prList.length === 0 ? (
+        <PRnoData state='close' />
+      ) : (
+        <PRList prList={prList} />
+      )}
     </section>
   );
 }
