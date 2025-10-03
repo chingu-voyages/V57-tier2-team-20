@@ -5,24 +5,33 @@ import PRErrors from "../components/PR/PRErrors";
 import Title from "../components/PR/PRTitle";
 import PRnoData from "../components/PR/PRnoData";
 import PRAnimationGrid from "../components/PR/PRAnimationGrid";
+import Pagination from "../components/PR/Pagination";
 
 export default function ClosedPRs({ org, repo }) {
-  const state = "close";
+  // const org = import.meta.env.VITE_GITHUB_ORG;
+  // const repo = import.meta.env.VITE_GITHUB_REPO;
+   const state = "close";
   const [prList, setPrList] = useState(null);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const perPage = 5;
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     if (!org || !repo) return;
     loadPRs();
-  }, [org, repo]);
+  }, [org, repo, page]);
 
   //Load PR List
   const loadPRs = async () => {
     try {
-      const formattedPRList = await getPullRequests(org, repo, state);
+      const { prs, totalCount } = await getPullRequests(org, repo, state, page, perPage);
+
+      setPrList(prs);
+      setTotalCount(totalCount);
+
 
       //Save PRs into prList
-      setPrList(formattedPRList);
       //Clear errors
       setError(null);
     } catch (err) {
@@ -44,15 +53,25 @@ export default function ClosedPRs({ org, repo }) {
         variant='close'
       />
 
-      {error ? (
-        <PRErrors err={error} />
-      ) : prList === null ? (
-        <PRAnimationGrid state='close' />
-      ) : prList && prList.length === 0 ? (
-        <PRnoData state='close' />
-      ) : (
-        <PRList prList={prList} />
-      )}
+          {error ? (
+              <PRErrors err={error} />
+            ) : prList === null ? (
+              <PRAnimationGrid state='close'/>
+            ) : prList && prList.length === 0 ? (
+              <PRnoData state='close'/>
+            ) : (
+              <>
+              <PRList prList={prList} />
+              {totalCount > perPage && (
+                      <Pagination
+                        page={page}
+                        setPage={setPage}
+                        perPage={perPage}
+                        totalCount={totalCount}
+                      />
+                    )}
+              </>
+            )}
     </section>
   );
 }
