@@ -1,6 +1,7 @@
 import PrimaryButton from "../PrimaryButton";
 import SecondaryButton from "../SecondaryButton";
 import { Icon } from "@iconify/react";
+import { useModal } from "../../context/ModalContext";
 
 export default function PRTitle({
   org,
@@ -12,6 +13,7 @@ export default function PRTitle({
   variant = "open", // new prop: "open" | "closed"
 }) {
   const isClosed = variant === "close";
+  const { handleModal } = useModal();
 
   return (
     <div
@@ -49,7 +51,7 @@ export default function PRTitle({
               {repo}
             </a>
           </div>
-          <SecondaryButton onClick={null} />
+          <SecondaryButton onClick={handleModal} />
         </div>
       </div>
 
