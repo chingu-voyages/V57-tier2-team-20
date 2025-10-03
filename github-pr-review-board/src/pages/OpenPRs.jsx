@@ -5,6 +5,7 @@ import PRErrors from "../components/PR/PRErrors";
 import Title from "../components/PR/PRTitle";
 import PRnoData from "../components/PR/PRnoData";
 import PRAnimationGrid from "../components/PR/PRAnimationGrid";
+import Pagination from "../components/PR/Pagination"
 
 export default function OpenedPRs({ org, repo }) {
   // const org = import.meta.env.VITE_GITHUB_ORG;
@@ -12,19 +13,20 @@ export default function OpenedPRs({ org, repo }) {
   const state = "open";
   const [prList, setPrList] = useState(null);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const perPage = 5;
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     loadPRs();
-  }, []);
+  }, [page]);
 
   //Load PR List
   const loadPRs = async () => {
     try {
-      const formattedPRList = await getPullRequests(org, repo, state);
-
-      //Save PRs into prList
-      setPrList(formattedPRList);
-      //setPrList([]);
+      const { prs, totalCount } = await getPullRequests(org, repo, state, page, perPage);
+      setPrList(prs);
+      setTotalCount(totalCount);
 
       //Clear errors
       setError(null);
@@ -53,7 +55,17 @@ export default function OpenedPRs({ org, repo }) {
       ) : prList && prList.length === 0 ? (
         <PRnoData />
       ) : (
+        <>
         <PRList prList={prList} />
+        {totalCount > perPage && (
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  perPage={perPage}
+                  totalCount={totalCount}
+                />
+              )}
+        </>
       )}
     </section>
   );

@@ -48,13 +48,13 @@ export async function getPRCommits(org, repo, prNumber) {
 }
 
 //List of Pull Requests
-export async function getPullRequests(org, repo, state) {
+export async function getPullRequests(org, repo, state,page = 1, perPage = 5) {
   const info = await fetchAPI(
-    `/repos/${org}/${repo}/pulls?state=${state}&per_page=100`
+    `/repos/${org}/${repo}/pulls?state=${state}&page=${page}&per_page=${perPage}`
   );
 
   //Without activities
-  return info.map((pr) => ({
+  const prs =  info.map((pr) => ({
     title: pr.title,
     number: pr.number,
     pr_url: pr.html_url,
@@ -79,6 +79,20 @@ export async function getPullRequests(org, repo, state) {
     state:pr.state,
     merged:pr.merged_at
   }));
+
+   // GitHub doesn’t give total_count for PRs directly.
+  // Workaround: search API (counts PRs).
+  const searchRes = await octokit.request(
+    "GET /search/issues",
+    {
+      q: `repo:${org}/${repo} is:pr is:${state}`
+    }
+  );
+
+  return {
+    prs,
+    totalCount: searchRes.data.total_count,
+  };
 
   //With activities
   //   return Promise.all(
