@@ -10,8 +10,13 @@ const octokit = new Octokit({
 
 async function fetchAPI(url) {
   try {
-    const response = await octokit.request(url);
-    return response.data;
+    // const response = await octokit.request(url);
+    const response = await fetch(`https://github-pr-board.backend-iaas.workers.dev/?url=${url}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
   } catch (err) {
     console.error(`Error fetching ${url}:`, err);
     throw err;
