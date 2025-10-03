@@ -6,6 +6,9 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
   if (totalPages <= 1) return null;
 
   const groupSize = 3;
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   // visibleGroup controls which block of 3 pages is displayed
   const initialGroup = Math.floor((page - 1) / groupSize) + 1;
@@ -40,18 +43,21 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
     const targetGroup = Math.floor((p - 1) / groupSize) + 1;
     setVisibleGroup(targetGroup);
     setPage(p);
+    scrollToTop();
   };
 
   const goNext = () => {
     const nextPage = Math.min(page + 1, totalPages);
     setPage(nextPage);
     setVisibleGroup(Math.floor((nextPage - 1) / groupSize) + 1);
+    scrollToTop();
   };
 
   const goPrev = () => {
     const prevPage = Math.max(page - 1, 1);
     setPage(prevPage);
     setVisibleGroup(Math.floor((prevPage - 1) / groupSize) + 1);
+    scrollToTop();
   };
 
   // clicking ellipses jumps to the previous/next group first page
@@ -82,8 +88,12 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
         <button
           disabled={page === 1}
           onClick={goPrev}
-          className="px-3 py-2 border border-brand-primary disabled:border-brand-primary/20"
-          aria-label="Previous page"
+          className={`px-3 py-2 border border-brand-primary ${
+            page === 1
+            ? "border-brand-primary/20 text-brand-primary/20"
+            : "text-brand-primary cursor-pointer"
+        }`}
+                aria-label="Previous page"
         >
           <Icon icon="solar:arrow-left-outline" width="20" height="20" />
         </button>
@@ -115,8 +125,12 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
         <button
           disabled={page === totalPages}
           onClick={goNext}
-          className="px-3 py-2 border border-brand-primary disabled:opacity-40"
-          aria-label="Next page"
+        className={`px-3 py-2 border border-brand-primary ${
+            page === totalPages
+            ? "border-brand-primary/20 text-brand-primary/20"
+            : "text-brand-primary cursor-pointer"
+         }`}         
+        aria-label="Next page"
         >
           <Icon icon="solar:arrow-right-outline" width="20" height="20" />
         </button>
