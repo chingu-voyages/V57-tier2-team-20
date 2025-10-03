@@ -7,15 +7,14 @@ import PRnoData from "../components/PR/PRnoData";
 import PRAnimationGrid from "../components/PR/PRAnimationGrid";
 
 export default function OpenedPRs({ org, repo }) {
-  // const org = import.meta.env.VITE_GITHUB_ORG;
-  // const repo = import.meta.env.VITE_GITHUB_REPO;
   const state = "open";
   const [prList, setPrList] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!org || !repo) return;
     loadPRs();
-  }, []);
+  }, [org, repo]);
 
   //Load PR List
   const loadPRs = async () => {
@@ -24,7 +23,6 @@ export default function OpenedPRs({ org, repo }) {
 
       //Save PRs into prList
       setPrList(formattedPRList);
-      //setPrList([]);
 
       //Clear errors
       setError(null);
@@ -36,14 +34,14 @@ export default function OpenedPRs({ org, repo }) {
   };
 
   return (
-    <section className="w-full lg:px-22 space-y-6 text-sm z-10">
+    <section className='w-full lg:px-22 space-y-6 text-sm z-10'>
       <Title
         org={org}
         repo={repo}
         orgUrl={prList?.[0]?.orgUrl}
         repoUrl={prList?.[0]?.repoUrl}
         onRefresh={loadPRs}
-        title= "open pr requests"
+        title='open pr requests'
       />
 
       {error ? (
