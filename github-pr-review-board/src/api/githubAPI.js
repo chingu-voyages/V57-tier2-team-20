@@ -52,7 +52,7 @@ export async function getPRCommits(org, repo, prNumber) {
 //List of Pull Requests
 export async function getPullRequests(org, repo, state) {
     const info = await fetchAPI(
-        `/repos/${org}/${repo}/pulls?state=${state}&per_page=50&page=1`
+        `/repos/${org}/${repo}/pulls?state=${state}&per_page=100`
     )
 
     //Without activities
