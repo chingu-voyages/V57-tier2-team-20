@@ -1,12 +1,4 @@
-import { Octokit } from "@octokit/rest"
 import { timeAgo } from "../utils/dateConverter"
-
-const octokit = new Octokit({
-    //auth: import.meta.env.VITE_GITHUB_TOKEN,
-    headers: {
-        "X-GitHub-Api-Version": "2022-11-28",
-    },
-})
 
 async function fetchAPI(url) {
     try {
