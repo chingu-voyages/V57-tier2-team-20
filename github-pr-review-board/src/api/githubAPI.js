@@ -3,7 +3,6 @@ import { timeAgo } from "../utils/dateConverter"
 async function fetchAPI(url) {
     try {
         // const response = await octokit.request(url);
-        console.log("Fetching URL:", url);
         const response = await fetch(
             `https://github-pr-board.backend-iaas.workers.dev/?url=${encodeURIComponent(url)}`
         )
@@ -55,8 +54,6 @@ export async function getPullRequests(org, repo, state) {
     const info = await fetchAPI(
         `/repos/${org}/${repo}/pulls?state=${state}&per_page=50&page=1`
     )
-
-    console.log("Pull Requests:", info)
 
     //Without activities
     return info.map((pr) => ({
