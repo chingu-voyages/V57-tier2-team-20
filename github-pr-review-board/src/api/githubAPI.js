@@ -1,17 +1,11 @@
-import { Octokit } from "@octokit/rest";
 import { timeAgo } from "../utils/dateConverter";
-
-const octokit = new Octokit({
-  //auth: import.meta.env.VITE_GITHUB_TOKEN,
-  headers: {
-    "X-GitHub-Api-Version": "2022-11-28",
-  },
-});
 
 async function fetchAPI(url) {
   try {
     // const response = await octokit.request(url);
-    const response = await fetch(`https://github-pr-board.backend-iaas.workers.dev/?url=${url}`);
+    const response = await fetch(
+        `https://github-pr-board.backend-iaas.workers.dev/?url=${encodeURIComponent(url)}`
+    );
     if (!response.ok) {
         const error = new Error(response.statusText)
         error.status = response.status
