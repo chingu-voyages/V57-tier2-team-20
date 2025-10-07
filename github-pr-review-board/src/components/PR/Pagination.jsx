@@ -3,13 +3,13 @@ import { Icon } from "@iconify/react";
 
 
 export default function Pagination({ page, setPage, perPage, totalCount }) {
-
+  const initialGroup = Math.floor((page - 1) / groupSize) + 1;
+  const [visibleGroup, setVisibleGroup] = useState(initialGroup);
   const groupSize = 3;
   const totalPages = Math.max(1, Math.ceil(totalCount / perPage));
   if (totalPages <= 1) return null;
 
-  const initialGroup = Math.floor((page - 1) / groupSize) + 1;
-  const [visibleGroup, setVisibleGroup] = useState(initialGroup);
+  
 
   useEffect(() => {
     setVisibleGroup(Math.floor((page - 1) / groupSize) + 1);
