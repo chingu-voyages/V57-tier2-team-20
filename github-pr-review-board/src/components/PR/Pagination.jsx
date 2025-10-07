@@ -1,31 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Icon } from "@iconify/react";
 
+
 export default function Pagination({ page, setPage, perPage, totalCount }) {
+
+  const groupSize = 3;
   const totalPages = Math.max(1, Math.ceil(totalCount / perPage));
   if (totalPages <= 1) return null;
 
-  const groupSize = 3;
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // visibleGroup controls which block of 3 pages is displayed
   const initialGroup = Math.floor((page - 1) / groupSize) + 1;
   const [visibleGroup, setVisibleGroup] = useState(initialGroup);
 
-  // Keep visibleGroup in sync if parent changes page externally
   useEffect(() => {
     setVisibleGroup(Math.floor((page - 1) / groupSize) + 1);
   }, [page, groupSize]);
 
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const groupStart = (visibleGroup - 1) * groupSize + 1;
   const groupEnd = Math.min(visibleGroup * groupSize, totalPages);
 
-  const getPages = () => {
+  const getPages = useMemo(() => {
     const pages = [];
-
-    // If total pages <= groupSize show them all (no ellipses)
     if (totalPages <= groupSize) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
       return pages;
@@ -36,44 +34,48 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
     if (groupEnd < totalPages) pages.push("right-ellipsis");
 
     return pages;
-  };
+  }, [groupStart, groupEnd, totalPages, groupSize]);
 
-  // navigate helpers: update both page and visible group together
-  const goToPage = (p) => {
-    const targetGroup = Math.floor((p - 1) / groupSize) + 1;
-    setVisibleGroup(targetGroup);
-    setPage(p);
-    scrollToTop();
-  };
+  const goToPage = useCallback(
+    (p) => {
+      const targetGroup = Math.floor((p - 1) / groupSize) + 1;
+      setVisibleGroup(targetGroup);
+      setPage(p);
+      scrollToTop();
+    },
+    [setPage, scrollToTop, groupSize]
+  );
 
-  const goNext = () => {
+  const goNext = useCallback(() => {
     const nextPage = Math.min(page + 1, totalPages);
     setPage(nextPage);
     setVisibleGroup(Math.floor((nextPage - 1) / groupSize) + 1);
     scrollToTop();
-  };
+  }, [page, totalPages, setPage, scrollToTop, groupSize]);
 
-  const goPrev = () => {
+  const goPrev = useCallback(() => {
     const prevPage = Math.max(page - 1, 1);
     setPage(prevPage);
     setVisibleGroup(Math.floor((prevPage - 1) / groupSize) + 1);
     scrollToTop();
-  };
+  }, [page, setPage, scrollToTop, groupSize]);
 
-  // clicking ellipses jumps to the previous/next group first page
-  const onEllipsisClick = (which) => {
-    if (which === "left-ellipsis") {
-      const prevGroup = Math.max(visibleGroup - 1, 1);
-      const p = (prevGroup - 1) * groupSize + 1;
-      setVisibleGroup(prevGroup);
-      setPage(p);
-    } else {
-      const nextGroup = Math.min(visibleGroup + 1, Math.ceil(totalPages / groupSize));
-      const p = (nextGroup - 1) * groupSize + 1;
-      setVisibleGroup(nextGroup);
-      setPage(p);
-    }
-  };
+  const onEllipsisClick = useCallback(
+    (which) => {
+      if (which === "left-ellipsis") {
+        const prevGroup = Math.max(visibleGroup - 1, 1);
+        const p = (prevGroup - 1) * groupSize + 1;
+        setVisibleGroup(prevGroup);
+        setPage(p);
+      } else {
+        const nextGroup = Math.min(visibleGroup + 1, Math.ceil(totalPages / groupSize));
+        const p = (nextGroup - 1) * groupSize + 1;
+        setVisibleGroup(nextGroup);
+        setPage(p);
+      }
+    },
+    [visibleGroup, totalPages, setPage, groupSize]
+  );
 
   const startItem = (page - 1) * perPage + 1;
   const endItem = Math.min(page * perPage, totalCount);
@@ -90,15 +92,15 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
           onClick={goPrev}
           className={`px-3 py-2 border border-brand-primary ${
             page === 1
-            ? "border-brand-primary/20 text-brand-primary/20"
-            : "text-brand-primary cursor-pointer"
-        }`}
-                aria-label="Previous page"
+              ? "border-brand-primary/20 text-brand-primary/20"
+              : "text-brand-primary cursor-pointer"
+          }`}
+          aria-label="Previous page"
         >
           <Icon icon="solar:arrow-left-outline" width="20" height="20" />
         </button>
 
-        {getPages().map((p, idx) =>
+        {getPages.map((p, idx) =>
           typeof p === "string" ? (
             <button
               key={p + idx}
@@ -125,12 +127,12 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
         <button
           disabled={page === totalPages}
           onClick={goNext}
-        className={`px-3 py-2 border border-brand-primary ${
+          className={`px-3 py-2 border border-brand-primary ${
             page === totalPages
-            ? "border-brand-primary/20 text-brand-primary/20"
-            : "text-brand-primary cursor-pointer"
-         }`}         
-        aria-label="Next page"
+              ? "border-brand-primary/20 text-brand-primary/20"
+              : "text-brand-primary cursor-pointer"
+          }`}
+          aria-label="Next page"
         >
           <Icon icon="solar:arrow-right-outline" width="20" height="20" />
         </button>
