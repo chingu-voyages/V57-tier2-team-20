@@ -14,12 +14,12 @@ export default function PRCardTitle({ pr }) {
   return (
     <div className='flex flex-wrap gap-3'>
       <div>
-        <div className='flex items-center gap-3 text-white group cursor-pointer '>
+        <div className='flex items-start gap-3 text-white group cursor-pointer '>
           <Icon
             icon='solar:document-add-outline'
             className='w-6.5 h-6.5 border border-white shrink-0 p-1'
           />
-          <h3 className='text-lg uppercase transition duration-300 group-hover:text-brand-primary '>
+          <h3 className='text-lg uppercase transition text-start duration-300 group-hover:text-brand-primary '>
             <a
               href={pr.pr_url}
               target='__blank'

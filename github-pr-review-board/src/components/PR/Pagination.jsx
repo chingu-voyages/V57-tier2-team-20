@@ -79,13 +79,21 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
 
   const startItem = (page - 1) * perPage + 1;
   const endItem = Math.min(page * perPage, totalCount);
-
-  return (
-    <div className="flex items-center justify-between border bg-card border-brand-primary/20 text-text p-6 text-sm">
-      <span>
+return (
+  <div className="border bg-card border-brand-primary/20 text-text p-6 text-sm flex flex-col items-center gap-4 md:grid md:grid-cols-3 md:items-center">
+    
+    {/* Left span (desktop) / top-left on mobile */}
+    <div className="flex justify-between md:justify-start items-center gap-20 md:col-start-1">
+      <span className="whitespace-nowrap">
         Showing {startItem} to {endItem} of {totalCount} PR
       </span>
+      <span className="whitespace-nowrap md:hidden">
+        Page {page} of {totalPages}
+      </span>
+    </div>
 
+    {/* Pagination Center */}
+    <div className="flex justify-center md:col-start-2">
       <div className="flex items-center gap-2">
         <button
           disabled={page === 1}
@@ -115,7 +123,9 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
               key={p}
               onClick={() => goToPage(p)}
               className={`px-4 py-2 cursor-pointer hover:bg-brand-primary hover:border hover:border-brand-primary hover:text-mutted ${
-                page === p ? "text-brand-primary border border-brand-primary bg-brand-primary/10" : ""
+                page === p
+                  ? "text-brand-primary border border-brand-primary bg-brand-primary/10"
+                  : ""
               }`}
               aria-current={page === p ? "page" : undefined}
             >
@@ -137,10 +147,15 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
           <Icon icon="solar:arrow-right-outline" width="20" height="20" />
         </button>
       </div>
-
-      <span>
-        Page {page} of {totalPages}
-      </span>
     </div>
-  );
+
+    {/* Right span (desktop only) */}
+    <div className="hidden md:flex justify-end md:col-start-3">
+      <span>Page {page} of {totalPages}</span>
+    </div>
+  </div>
+);
+
+
+
 }
