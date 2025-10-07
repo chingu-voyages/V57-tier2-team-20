@@ -11,26 +11,21 @@ export default function ClosedPRs({ org, repo }) {
   // const org = import.meta.env.VITE_GITHUB_ORG;
   // const repo = import.meta.env.VITE_GITHUB_REPO;
    const state = "close";
-  const [prList, setPrList] = useState(null);
+  const [allPRs, setAllPRs] = useState(null);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const perPage = 5;
-  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     if (!org || !repo) return;
     loadPRs();
-  }, [org, repo, page]);
+  }, [org, repo]);
 
   //Load PR List
   const loadPRs = async () => {
     try {
-      const { prs, totalCount } = await getPullRequests(org, repo, state, page, perPage);
-
-      setPrList(prs);
-      setTotalCount(totalCount);
-
-
+      const prs = await getPullRequests(org, repo, state);
+      setAllPRs(prs);
       //Save PRs into prList
       //Clear errors
       setError(null);
@@ -40,6 +35,9 @@ export default function ClosedPRs({ org, repo }) {
       setError(err);
     }
   };
+    // Slice PRs for current page
+  const prList = allPRs?.slice((page - 1) * perPage, page * perPage) || [];
+  const totalCount = allPRs?.length || 0;
 
   return (
     <section className='w-full lg:px-22 space-y-6 text-sm z-10'>
@@ -55,7 +53,7 @@ export default function ClosedPRs({ org, repo }) {
 
           {error ? (
               <PRErrors err={error} />
-            ) : prList === null ? (
+            ) : allPRs === null ? (
               <PRAnimationGrid state='close'/>
             ) : prList && prList.length === 0 ? (
               <PRnoData state='close'/>

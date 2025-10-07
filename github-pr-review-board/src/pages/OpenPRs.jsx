@@ -9,11 +9,10 @@ import Pagination from "../components/PR/Pagination"
 
 export default function OpenedPRs({ org, repo }) {
   const state = "open";
-  const [prList, setPrList] = useState(null);
+  const [allPRs, setAllPRs] = useState(null);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const perPage = 5;
-  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     if (!org || !repo) return;
@@ -23,10 +22,8 @@ export default function OpenedPRs({ org, repo }) {
   //Load PR List
   const loadPRs = async () => {
     try {
-      const { prs, totalCount } = await getPullRequests(org, repo, state, page, perPage);
-      setPrList(prs);
-      setTotalCount(totalCount);
-
+      const prs = await getPullRequests(org, repo, state);
+      setAllPRs(prs);
       //Clear errors
       setError(null);
     } catch (err) {
@@ -35,6 +32,9 @@ export default function OpenedPRs({ org, repo }) {
       setError(err);
     }
   };
+   // Slice PRs for current page
+  const prList = allPRs?.slice((page - 1) * perPage, page * perPage) || [];
+  const totalCount = allPRs?.length || 0;
 
   return (
     <section className='w-full lg:px-22 space-y-6 text-sm z-10'>
@@ -49,7 +49,7 @@ export default function OpenedPRs({ org, repo }) {
 
       {error ? (
         <PRErrors err={error} />
-      ) : prList === null ? (
+      ) : allPRs === null ? (
         <PRAnimationGrid />
       ) : prList && prList.length === 0 ? (
         <PRnoData />

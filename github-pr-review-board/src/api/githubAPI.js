@@ -55,9 +55,9 @@ export async function getPRCommits(org, repo, prNumber) {
 }
 
 //List of Pull Requests
-export async function getPullRequests(org, repo, state,page = 1, perPage = 100) {
+export async function getPullRequests(org, repo, state) {
   const info = await fetchAPI(
-    `/repos/${org}/${repo}/pulls?state=${state}&page=${page}&per_page=${perPage}`
+    `/repos/${org}/${repo}/pulls?state=${state}&per_page=100`
   );
 
   //Without activities
@@ -87,10 +87,8 @@ export async function getPullRequests(org, repo, state,page = 1, perPage = 100) 
     merged:pr.merged_at
   }));
 
-  // Total count = length of fetched array
-  const totalCount = prs.length;
 
-  return { prs, totalCount};
+  return prs;
 
   //With activities
   //   return Promise.all(
