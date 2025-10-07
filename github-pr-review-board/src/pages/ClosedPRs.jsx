@@ -10,7 +10,7 @@ import Pagination from "../components/PR/Pagination";
 export default function ClosedPRs({ org, repo }) {
   // const org = import.meta.env.VITE_GITHUB_ORG;
   // const repo = import.meta.env.VITE_GITHUB_REPO;
-  const state = "closed";
+   const state = "close";
   const [prList, setPrList] = useState(null);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
@@ -18,8 +18,9 @@ export default function ClosedPRs({ org, repo }) {
   const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
+    if (!org || !repo) return;
     loadPRs();
-  }, [page]);
+  }, [org, repo, page]);
 
   //Load PR List
   const loadPRs = async () => {
@@ -48,16 +49,16 @@ export default function ClosedPRs({ org, repo }) {
         orgUrl={prList?.[0]?.orgUrl}
         repoUrl={prList?.[0]?.repoUrl}
         onRefresh={loadPRs}
-        title="closed pr requests"
-        variant="close"   
+        title='closed pr requests'
+        variant='close'
       />
 
           {error ? (
               <PRErrors err={error} />
             ) : prList === null ? (
-              <PRAnimationGrid />
+              <PRAnimationGrid state='close'/>
             ) : prList && prList.length === 0 ? (
-              <PRnoData />
+              <PRnoData state='close'/>
             ) : (
               <>
               <PRList prList={prList} />
