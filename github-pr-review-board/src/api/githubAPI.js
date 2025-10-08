@@ -55,7 +55,7 @@ export async function getPullRequests(org, repo, state) {
   );
 
   //Without activities
-  return info.map((pr) => ({
+  const prs =  info.map((pr) => ({
     title: pr.title,
     number: pr.number,
     pr_url: pr.html_url,
@@ -80,6 +80,9 @@ export async function getPullRequests(org, repo, state) {
     state:pr.state,
     merged:pr.merged_at
   }));
+
+
+  return prs;
 
   //With activities
   //   return Promise.all(
