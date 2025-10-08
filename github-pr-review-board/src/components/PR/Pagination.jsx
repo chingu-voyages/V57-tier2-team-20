@@ -77,10 +77,10 @@ export default function Pagination({ page, setPage, perPage, totalCount }) {
   const startItem = (page - 1) * perPage + 1;
   const endItem = Math.min(page * perPage, totalCount);
 return (
-  <div className="border bg-card border-brand-primary/20 text-text p-6 text-sm flex flex-col items-center gap-4 md:grid md:grid-cols-3 md:items-center">
+  <div className="border bg-card border-brand-primary/20 text-text p-3 md:p-6 text-sm flex flex-col items-center gap-4 md:grid md:grid-cols-3 md:items-center">
     
     {/* Left span (desktop) / top-left on mobile */}
-    <div className="flex justify-between md:justify-start items-center gap-20 md:col-start-1">
+    <div className="flex w-full justify-between md:justify-start items-center gap-2 md:col-start-1">
       <span className="whitespace-nowrap">
         Showing {startItem} to {endItem} of {totalCount} PR
       </span>
@@ -90,12 +90,12 @@ return (
     </div>
 
     {/* Pagination Center */}
-    <div className="flex justify-center md:col-start-2">
-      <div className="flex items-center gap-2">
+    <div className="flex w-full justify-center md:col-start-2">
+      <div className="flex justify-between  items-center gap-1 md:gap-2">
         <button
           disabled={page === 1}
           onClick={goPrev}
-          className={`px-3 py-2 border border-brand-primary ${
+          className={`px-2 py-2 md:px-3  border border-brand-primary ${
             page === 1
               ? "border-brand-primary/20 text-brand-primary/20"
               : "text-brand-primary cursor-pointer"
@@ -119,7 +119,7 @@ return (
             <button
               key={p}
               onClick={() => goToPage(p)}
-              className={`px-4 py-2 cursor-pointer hover:bg-brand-primary hover:border hover:border-brand-primary hover:text-mutted ${
+              className={`px-3 py-2 md:px-4  cursor-pointer hover:bg-brand-primary hover:border hover:border-brand-primary hover:text-mutted ${
                 page === p
                   ? "text-brand-primary border border-brand-primary bg-brand-primary/10"
                   : ""
@@ -134,7 +134,7 @@ return (
         <button
           disabled={page === totalPages}
           onClick={goNext}
-          className={`px-3 py-2 border border-brand-primary ${
+          className={`px-2 md:px-3 py-2 border border-brand-primary ${
             page === totalPages
               ? "border-brand-primary/20 text-brand-primary/20"
               : "text-brand-primary cursor-pointer"
