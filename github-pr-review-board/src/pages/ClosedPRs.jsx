@@ -10,7 +10,7 @@ import Pagination from "../components/PR/Pagination";
 export default function ClosedPRs({ org, repo }) {
   // const org = import.meta.env.VITE_GITHUB_ORG;
   // const repo = import.meta.env.VITE_GITHUB_REPO;
-   const state = "close";
+  const state = "closed";
   const [allPRs, setAllPRs] = useState(null);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
@@ -35,7 +35,7 @@ export default function ClosedPRs({ org, repo }) {
       setError(err);
     }
   };
-    // Slice PRs for current page
+  // Slice PRs for current page
   const prList = allPRs?.slice((page - 1) * perPage, page * perPage) || [];
   const totalCount = allPRs?.length || 0;
 
@@ -51,25 +51,25 @@ export default function ClosedPRs({ org, repo }) {
         variant='close'
       />
 
-          {error ? (
-              <PRErrors err={error} />
-            ) : allPRs === null ? (
-              <PRAnimationGrid state='close'/>
-            ) : prList && prList.length === 0 ? (
-              <PRnoData state='close'/>
-            ) : (
-              <>
-              <PRList prList={prList} />
-              {totalCount > perPage && (
-                      <Pagination
-                        page={page}
-                        setPage={setPage}
-                        perPage={perPage}
-                        totalCount={totalCount}
-                      />
-                    )}
-              </>
-            )}
+      {error ? (
+        <PRErrors err={error} />
+      ) : allPRs === null ? (
+        <PRAnimationGrid state='close' />
+      ) : prList && prList.length === 0 ? (
+        <PRnoData state='close' />
+      ) : (
+        <>
+          <PRList prList={prList} />
+          {totalCount > perPage && (
+            <Pagination
+              page={page}
+              setPage={setPage}
+              perPage={perPage}
+              totalCount={totalCount}
+            />
+          )}
+        </>
+      )}
     </section>
   );
 }

@@ -1,4 +1,5 @@
 export function timeAgo(dateString) {
+  if (!dateString) return "";
   const date = new Date(dateString);
   const now = new Date();
   const diff = Math.floor((now - date) / 1000); // seconds
