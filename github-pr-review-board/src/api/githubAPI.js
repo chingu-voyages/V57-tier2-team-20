@@ -1,145 +1,137 @@
-import { timeAgo } from "../utils/dateConverter";
+import { timeAgo } from "../utils/dateConverter"
 
-async function fetchAPI(url) {
-  try {
-    // const response = await octokit.request(url);
-    const response = await fetch(
-        `https://github-pr-board.backend-iaas.workers.dev/?url=${encodeURIComponent(url)}`
-    );
-    if (!response.ok) {
-        const error = new Error(response.statusText)
-        error.status = response.status
-        throw error
+async function fetchAPI(query) {
+    try {
+        // const response = await octokit.request(url);
+        const response = await fetch(
+            `https://github-pr-board-graphql.backend-iaas.workers.dev/?query=${encodeURIComponent(
+                query
+            )}`
+        )
+        console.log("Response: ", response);
+        if (!response.ok) {
+            const error = new Error(response.statusText)
+            error.status = response.status
+            throw error
+        }
+        const data = await response.json()
+        return data
+    } catch (err) {
+        console.error(`Error fetching: `, err)
+        throw err
     }
-    const data = await response.json();
-    return data;
-  } catch (err) {
-    console.error(`Error fetching ${url}:`, err);
-    throw err;
-  }
 }
 
-// List of Repos
-export async function getRepos(org) {
-  return fetchAPI(`/orgs/${org}/repos`);
-}
-
-// List of Events
-export async function getPREvents(org, repo, prNumber) {
-  return fetchAPI(`/repos/${org}/${repo}/issues/${prNumber}/events`);
-}
-
-// List of comments
-export async function getPRComments(org, repo, prNumber) {
-  return fetchAPI(
-    `/repos/${org}/${repo}/issues/${prNumber}/comments?per_page=3&direction=desc`
-  );
-}
-
-// List of Reviews
-export async function getPRReviews(org, repo, prNumber) {
-  return fetchAPI(
-    `/repos/${org}/${repo}/pulls/${prNumber}/reviews?per_page=3&direction=desc`
-  );
-}
-
-// List of commits
-export async function getPRCommits(org, repo, prNumber) {
-  return fetchAPI(`/repos/${org}/${repo}/pulls/${prNumber}/commits`);
-}
-
-//List of Pull Requests
+// List of Pull Request
 export async function getPullRequests(org, repo, state) {
-  const info = await fetchAPI(
-    `/repos/${org}/${repo}/pulls?state=${state}&per_page=100`
-  );
+    const states =
+        state === "closed" ? ["CLOSED", "MERGED"] : [state.toUpperCase()]
 
-  //Without activities
-  const prs =  info.map((pr) => ({
-    title: pr.title,
-    number: pr.number,
-    pr_url: pr.html_url,
-    created_at: timeAgo(pr.created_at),
-    author: pr.user.login,
-    authorUrl: `https://github.com/${pr.user.login}`,
-    fromBranch: pr.head.ref,
-    fromBranchUrl: `${pr.base.repo.html_url}/tree/${pr.head.ref}`,
-    toBranch: pr.base.ref,
-    toBranchUrl: `${pr.base.repo.html_url}/tree/${pr.base.ref}`,
-    orgName: pr.base.repo.owner.login,
-    orgUrl: pr.base.repo.owner.html_url,
-    repoName: pr.base.repo.name,
-    repoUrl: pr.base.repo.html_url,
-    reviewers: pr.requested_reviewers?.length
-      ? pr.requested_reviewers.map((user) => ({
-          login: user.login,
-          url: `https://github.com/${user.login}`,
-        }))
-      : [],
-    activities: null,
-    state:pr.state,
-    merged:pr.merged_at
-  }));
+    const query = `
+  query {
+    repository(owner: "${org}", name: "${repo}") {
+         pullRequests(
+      first: 100,
+      states: [${states.join(
+          ","
+      )}], orderBy: {field: CREATED_AT, direction: DESC}) {
+        nodes {
+          title
+          url
+          number
+          createdAt
+          state
+          author {
+            login
+            url
+          }
+          headRefName
+          baseRefName
+          baseRepository {
+            name
+            url
+            owner {
+              login
+              url
+            }
+          }
+          reviewRequests(first: 100) {
+            nodes {
+              requestedReviewer {
+                ... on User {
+                  login
+                  url
+                }
+              }
+            }
+          }
 
+          # Activities
+         timelineItems(last: 3) {
+              nodes {
+                type: __typename
+                ... on PullRequestCommit { commit { committedDate } }
+                ... on PullRequestReview { created_at: submittedAt state }
+                ... on IssueComment { created_at: createdAt }
+                ... on MergedEvent { created_at: createdAt }
+                ... on ClosedEvent { created_at: createdAt }
+                ... on HeadRefDeletedEvent { created_at: createdAt }
+                ... on HeadRefRestoredEvent { created_at: createdAt }
+                ... on ReviewRequestedEvent { created_at: createdAt }
+                ... on ReviewRequestRemovedEvent { created_at: createdAt }
+                ... on ReadyForReviewEvent { created_at: createdAt }
+                ... on ReopenedEvent { created_at: createdAt }
+                ... on LabeledEvent { created_at: createdAt }
+                ... on UnlabeledEvent { created_at: createdAt }
+                ... on AssignedEvent { created_at: createdAt }
+                ... on UnassignedEvent { created_at: createdAt }
+                ... on CrossReferencedEvent { created_at: createdAt }
+              }
+            }
+        }
+      }
+    }
+  }
+`
 
-  return prs;
+    const info = await fetchAPI(query)
 
-  //With activities
-  //   return Promise.all(
-  //     info.map(async (pr) => ({
-  //       title: pr.title,
-  //       number: pr.number,
-  //       pr_url: pr.html_url,
-  //       created_at: timeAgo(pr.created_at),
-  //       author: pr.user.login,
-  //       authorUrl: `https://github.com/${pr.user.login}`,
-  //       fromBranch: pr.head.ref,
-  //       fromBranchUrl: `${pr.base.repo.html_url}/tree/${pr.head.ref}`,
-  //       toBranch: pr.base.ref,
-  //       toBranchUrl: `${pr.base.repo.html_url}/tree/${pr.base.ref}`,
-  //       orgName: pr.base.repo.owner.login,
-  //       orgUrl: pr.base.repo.owner.html_url,
-  //       repoName: pr.base.repo.name,
-  //       repoUrl: pr.base.repo.html_url,
-  //       reviewers: pr.requested_reviewers?.length
-  //         ? pr.requested_reviewers.map((user) => ({
-  //             login: user.login,
-  //             url: `https://github.com/${user.login}`,
-  //           }))
-  //         : [],
-  //       activities: await getPullRequestEvents(org, repo, pr.number),
-  //     }))
-  //   );
-}
+    const prs = info.map((pr) => ({
+        title: pr.title,
+        number: pr.number,
+        pr_url: pr.url,
+        created_at: timeAgo(pr.createdAt),
+        author: pr.author?.login,
+        authorUrl: pr.author?.url,
+        fromBranch: pr.headRefName,
+        fromBranchUrl: `${pr.baseRepository?.url}/tree/${pr.headRefName}`,
+        toBranch: pr.baseRefName,
+        toBranchUrl: `${pr.baseRepository?.url}/tree/${pr.baseRefName}`,
+        orgName: pr.baseRepository?.owner?.login,
+        orgUrl: pr.baseRepository?.owner?.url,
+        repoName: pr.baseRepository?.name,
+        repoUrl: pr.baseRepository?.url,
+        state: pr.state?.toLowerCase() || "",
+        reviewers:
+            pr.reviewRequests?.nodes.map((r) => ({
+                login: r.requestedReviewer?.login,
+                url: r.requestedReviewer?.url,
+            })) || [],
+        activities: [
+            ...(pr.timelineItems.nodes.length < 3
+                ? [{ type: "opened", created_at: timeAgo(pr.createdAt) }]
+                : []),
 
-//Get last 3 events
-export async function getPullRequestEvents(org, repo, prNumber) {
-  const [events, comments, reviews, commits] = await Promise.all([
-    getPREvents(org, repo, prNumber),
-    getPRComments(org, repo, prNumber),
-    getPRReviews(org, repo, prNumber),
-    getPRCommits(org, repo, prNumber),
-  ]);
+            ...pr.timelineItems.nodes.map((a) => ({
+                type: (a.type === "PullRequestReview" ? a.state : a.type)
+                    .replace(/Event$/, "")
+                    .replace(/^PullRequest/, "")
+                    .replace(/([a-z0-9])([A-Z])|_/g, "$1 $2")
+                    .toLowerCase(),
+                created_at: timeAgo(a.created_at || a.commit?.committedDate),
+            })),
+        ],
+    }))
 
-  // Join all activities
-  const allActivities = [...events, ...comments, ...reviews, ...commits]
-    .sort(
-      (a, b) =>
-        new Date(a.created_at || a.submitted_at || a.commit?.author?.date) -
-        new Date(b.created_at || b.submitted_at || b.commit?.author?.date)
-    )
-    .slice(-3) // last 3
-    .map((a) => ({
-      type: (
-        a.type ||
-        a.state ||
-        a.event ||
-        (a.commit ? "commit" : "commented")
-      )
-        .replace(/_/g, " ")
-        .toLowerCase(),
-      created_at: a.created_at || a.submitted_at || a.commit?.author?.date,
-    }));
-
-  return allActivities;
+    return prs
 }
