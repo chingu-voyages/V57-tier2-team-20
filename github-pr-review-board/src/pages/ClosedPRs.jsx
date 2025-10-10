@@ -103,7 +103,7 @@ export default function ClosedPRs({ org, repo }) {
 
         {/*  Conditional display of list or no-data */}
         {filteredPRs?.length === 0 ? (
-          <PRnoData state="close" />
+          <PRnoData state="close" filtered={!!(authorFilter || reviewerFilter || branchFilter)} />
         ) : (
           <>
             <PRList prList={prList} />

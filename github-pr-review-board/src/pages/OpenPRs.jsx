@@ -63,7 +63,7 @@ export default function OpenedPRs({ org, repo }) {
       setError(err);
     }
   };
-   // Slice PRs for current page
+    // Slice PRs for current page
   const prList = filteredPRs?.slice((page - 1) * perPage, page * perPage) || [];
   const totalCount = filteredPRs?.length || 0;
 
@@ -97,7 +97,7 @@ export default function OpenedPRs({ org, repo }) {
 
         {/* ✅ Conditional display of list or no-data */}
         {filteredPRs?.length === 0 ? (
-          <PRnoData />
+          <PRnoData filtered={!!(authorFilter || reviewerFilter || branchFilter)} />
         ) : (
           <>
             <PRList prList={prList} />
