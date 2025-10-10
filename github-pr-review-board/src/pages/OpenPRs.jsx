@@ -7,7 +7,7 @@ import Title from "../components/PR/PRTitle";
 import PRnoData from "../components/PR/PRnoData";
 import PRAnimationGrid from "../components/PR/PRAnimationGrid";
 import Pagination from "../components/PR/Pagination"
-import PRFilter from "../components/PR/PRFilter";
+import PRFilter from "../components/PR/PRFilter/PRFilter";
 
 export default function OpenedPRs({ org, repo }) {
   const state = "open";

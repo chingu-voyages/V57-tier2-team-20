@@ -7,12 +7,12 @@ import Title from "../components/PR/PRTitle";
 import PRnoData from "../components/PR/PRnoData";
 import PRAnimationGrid from "../components/PR/PRAnimationGrid";
 import Pagination from "../components/PR/Pagination";
-import PRFilter from "../components/PR/PRFilter";
+import PRFilter from "../components/PR/PRFilter/PRFilter";
 
 export default function ClosedPRs({ org, repo }) {
   // const org = import.meta.env.VITE_GITHUB_ORG;
   // const repo = import.meta.env.VITE_GITHUB_REPO;
-  const state = "close";
+  const state = "closed";
   const [allPRs, setAllPRs] = useState(null);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
@@ -90,7 +90,7 @@ export default function ClosedPRs({ org, repo }) {
       <PRAnimationGrid state="close" />
     ) : (
       <>
-        {/* ✅ Always visible filter */}
+        {/*  Always visible filter */}
         <PRFilter
           allPRs={allPRs}
           currentFilters={{
@@ -101,7 +101,7 @@ export default function ClosedPRs({ org, repo }) {
           onFilterChange={handleFilterChange}
         />
 
-        {/* ✅ Conditional display of list or no-data */}
+        {/*  Conditional display of list or no-data */}
         {filteredPRs?.length === 0 ? (
           <PRnoData state="close" />
         ) : (
