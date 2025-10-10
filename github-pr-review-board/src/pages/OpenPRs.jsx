@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+ import { useSearchParams } from "react-router-dom";
 import { getPullRequests } from "../api/githubAPI";
 import PRList from "../components/PR/PRList";
 import PRErrors from "../components/PR/PRErrors";
@@ -6,6 +7,7 @@ import Title from "../components/PR/PRTitle";
 import PRnoData from "../components/PR/PRnoData";
 import PRAnimationGrid from "../components/PR/PRAnimationGrid";
 import Pagination from "../components/PR/Pagination"
+import PRFilter from "../components/PR/PRFilter";
 
 export default function OpenedPRs({ org, repo }) {
   const state = "open";
@@ -13,11 +15,28 @@ export default function OpenedPRs({ org, repo }) {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const perPage = 5;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const authorFilter = searchParams.get("author") || "";
 
+  
   useEffect(() => {
     if (!org || !repo) return;
     loadPRs();
   }, [org, repo, page]);
+
+  const handleAuthorChange = (value) => {
+    if (value) {
+      setSearchParams({ author: value });
+    } else {
+      setSearchParams({});
+    }
+    setPage(1);
+  };
+
+  const filteredPRs = authorFilter
+    ? allPRs?.filter((pr) => pr.user?.login === authorFilter)
+    : allPRs;
+
 
   //Load PR List
   const loadPRs = async () => {
@@ -33,8 +52,8 @@ export default function OpenedPRs({ org, repo }) {
     }
   };
    // Slice PRs for current page
-  const prList = allPRs?.slice((page - 1) * perPage, page * perPage) || [];
-  const totalCount = allPRs?.length || 0;
+  const prList = filteredPRs?.slice((page - 1) * perPage, page * perPage) || [];
+  const totalCount = filteredPRs?.length || 0;
 
   return (
     <section className='w-full lg:px-22 space-y-6 text-sm z-10'>
@@ -55,6 +74,11 @@ export default function OpenedPRs({ org, repo }) {
         <PRnoData />
       ) : (
         <>
+        <PRFilter
+          allPRs={allPRs}
+          authorFilter={authorFilter}
+          onAuthorChange={handleAuthorChange}
+        />
         <PRList prList={prList} />
         {totalCount > perPage && (
                 <Pagination
