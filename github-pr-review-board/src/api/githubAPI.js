@@ -1,5 +1,4 @@
 import { timeAgo } from "../utils/dateConverter"
-const TOKEN = import.meta.env.VITE_GITHUB_TOKEN
 
 async function fetchAPI(query) {
     try {
