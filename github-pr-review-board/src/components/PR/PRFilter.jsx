@@ -36,9 +36,15 @@ export default function PRFilter({ allPRs, currentFilters, onFilterChange }) {
     }
   }, [allPRs]);
   
+useEffect(() => {
+  // If there are filters in URL, mark as applied
+  if (currentFilters.author || currentFilters.reviewer || currentFilters.branch) {
+    setFiltersApplied(true);
+  }
+}, [currentFilters]);
 
 // Check if any filter is applied
-  const isApplyActive = selectedAuthor || selectedReviewer || selectedBranch;
+  const isApplyActive = selectedAuthor || selectedReviewer || selectedBranch || filtersApplied;
 
   const filteredAuthors = authors.filter((a) =>
     a.toLowerCase().startsWith(searchAuthor.toLowerCase())
@@ -76,7 +82,7 @@ export default function PRFilter({ allPRs, currentFilters, onFilterChange }) {
       <div className="flex items-center gap-1 w-full justify-between">
         <div className="flex items-center gap-2 text-text">
           <Icon icon="solar:filter-outline" width="24" height="24" />
-          <h3 className="uppercase">Filter PRs</h3>
+          <h3 className="uppercase text-xs">Filter PRs</h3>
           {filtersApplied && (
           <span className="md:ml-2 px-3 py-2 text-sm bg-brand-primary/20 border border-brand-primary text-brand-primary ">Active</span>
           )}
@@ -215,7 +221,7 @@ export default function PRFilter({ allPRs, currentFilters, onFilterChange }) {
       </div>
 
       {/* Buttons */}
-      <div className="flex justify-between items-center w-full mt-6">
+      <div className="flex justify-end items-center w-full mt-6 gap-2">
       <div className={`flex items-center justify-center gap-2 px-2.5 py-[5.9px] border bg-brand-secondary/10 border-brand-secondary text-brand-secondary cursor-pointer hover:text-white hover:bg-brand-secondary
           ${isApplyActive ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`} 
           onClick={() => {

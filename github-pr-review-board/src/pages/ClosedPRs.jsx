@@ -31,7 +31,7 @@ export default function ClosedPRs({ org, repo }) {
   }, [org, repo]);
 
   const handleFilterChange = (filters) => {
-    // filters = { author: "...", reviewer: "...", label: "...", branch: "..." }
+    // filters = { author: "...", reviewer: "...", branch: "..." }
     const validFilters = Object.fromEntries(
       Object.entries(filters).filter(([_, v]) => v)
     );
@@ -84,34 +84,41 @@ export default function ClosedPRs({ org, repo }) {
         variant='close'
       />
 
-          {error ? (
-              <PRErrors err={error} />
-            ) : allPRs === null ? (
-              <PRAnimationGrid state='close'/>
-            ) : prList && prList.length === 0 ? (
-              <PRnoData state='close'/>
-            ) : (
-              <>
-              <PRFilter
-                allPRs={allPRs}
-                currentFilters={{
-                author: authorFilter,
-                reviewer: reviewerFilter,
-                branch: branchFilter,
-                }}
-                onFilterChange={handleFilterChange}
+    {error ? (
+      <PRErrors err={error} />
+    ) : allPRs === null ? (
+      <PRAnimationGrid state="close" />
+    ) : (
+      <>
+        {/* ✅ Always visible filter */}
+        <PRFilter
+          allPRs={allPRs}
+          currentFilters={{
+            author: authorFilter,
+            reviewer: reviewerFilter,
+            branch: branchFilter,
+          }}
+          onFilterChange={handleFilterChange}
+        />
+
+        {/* ✅ Conditional display of list or no-data */}
+        {filteredPRs?.length === 0 ? (
+          <PRnoData state="close" />
+        ) : (
+          <>
+            <PRList prList={prList} />
+            {totalCount > perPage && (
+              <Pagination
+                page={page}
+                setPage={setPage}
+                perPage={perPage}
+                totalCount={totalCount}
               />
-              <PRList prList={prList} />
-              {totalCount > perPage && (
-                      <Pagination
-                        page={page}
-                        setPage={setPage}
-                        perPage={perPage}
-                        totalCount={totalCount}
-                      />
-                    )}
-              </>
             )}
+          </>
+        )}
+      </>
+    )}
     </section>
   );
 }

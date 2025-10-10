@@ -16,7 +16,10 @@ export default function OpenedPRs({ org, repo }) {
   const [page, setPage] = useState(1);
   const perPage = 5;
   const [searchParams, setSearchParams] = useSearchParams();
+   // Get all filter parameters from URL
   const authorFilter = searchParams.get("author") || "";
+  const reviewerFilter = searchParams.get("reviewer") || "";
+  const branchFilter = searchParams.get("branch") || "";
 
   
   useEffect(() => {
@@ -24,19 +27,28 @@ export default function OpenedPRs({ org, repo }) {
     loadPRs();
   }, [org, repo, page]);
 
-  const handleAuthorChange = (value) => {
-    if (value) {
-      setSearchParams({ author: value });
-    } else {
-      setSearchParams({});
-    }
+  const handleFilterChange = (filters) => {
+    // filters = { author: "...", reviewer: "...", branch: "..." }
+    const validFilters = Object.fromEntries(
+      Object.entries(filters).filter(([_, v]) => v)
+    );
+    setSearchParams(validFilters);
     setPage(1);
   };
 
-  const filteredPRs = authorFilter
-    ? allPRs?.filter((pr) => pr.user?.login === authorFilter)
-    : allPRs;
+    // Apply all filters
+  const filteredPRs = allPRs?.filter((pr) => {
+    let match = true;
+    if (authorFilter) match = match && pr.author === authorFilter;
 
+    if (reviewerFilter) {
+      match =
+        match &&
+        pr.reviewers?.some((rev) => rev.login === reviewerFilter);
+    }    
+    if (branchFilter) match = match && pr.fromBranch === branchFilter;
+    return match;
+  });
 
   //Load PR List
   const loadPRs = async () => {
@@ -66,30 +78,41 @@ export default function OpenedPRs({ org, repo }) {
         title='open pr requests'
       />
 
-      {error ? (
-        <PRErrors err={error} />
-      ) : allPRs === null ? (
-        <PRAnimationGrid />
-      ) : prList && prList.length === 0 ? (
-        <PRnoData />
-      ) : (
-        <>
+    {error ? (
+      <PRErrors err={error} />
+    ) : allPRs === null ? (
+      <PRAnimationGrid/>
+    ) : (
+      <>
+        {/* ✅ Always visible filter */}
         <PRFilter
           allPRs={allPRs}
-          authorFilter={authorFilter}
-          onAuthorChange={handleAuthorChange}
+          currentFilters={{
+            author: authorFilter,
+            reviewer: reviewerFilter,
+            branch: branchFilter,
+          }}
+          onFilterChange={handleFilterChange}
         />
-        <PRList prList={prList} />
-        {totalCount > perPage && (
-                <Pagination
-                  page={page}
-                  setPage={setPage}
-                  perPage={perPage}
-                  totalCount={totalCount}
-                />
-              )}
-        </>
-      )}
+
+        {/* ✅ Conditional display of list or no-data */}
+        {filteredPRs?.length === 0 ? (
+          <PRnoData />
+        ) : (
+          <>
+            <PRList prList={prList} />
+            {totalCount > perPage && (
+              <Pagination
+                page={page}
+                setPage={setPage}
+                perPage={perPage}
+                totalCount={totalCount}
+              />
+            )}
+          </>
+        )}
+      </>
+    )}
     </section>
   );
 }
