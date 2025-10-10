@@ -4,13 +4,13 @@ export default function PRCardTitle({ pr }) {
   // Determine PR status
   let status = "";
   if (pr.state === "open") status = "Open";
-  else if (pr.state === "closed" && pr.merged) status = "Merged";
+  else if (pr.state === "merged") status = "Merged";
   else status = "Unmerged"; // closed but not merged
   const statusColors = {
     Open: "bg-brand-primary/20 text-brand-primary",
     Merged: "bg-brand-primary/20 text-brand-primary",
     Unmerged: "bg-brand-secondary/20 text-brand-secondary",
-  }
+  };
   return (
     <div className='flex flex-wrap gap-3'>
       <div>
@@ -56,9 +56,8 @@ export default function PRCardTitle({ pr }) {
           </a>
         </div>
       </div>
-     <div className="ml-auto flex items-center gap-2 h-fit">
-
-      {(status === "Merged" || status === "Unmerged") &&(
+      <div className='ml-auto flex items-center gap-2 h-fit'>
+        {(status === "Merged" || status === "Unmerged") && (
           <a
             href={pr.pr_url}
             target='__blank'
@@ -68,15 +67,15 @@ export default function PRCardTitle({ pr }) {
             {status}
           </a>
         )}
-      {/* PR number */}
-      <a
-        href={pr.pr_url}
-        target='__blank'
-        rel='noopener noreferrer'
-        className={`ml-auto border px-4 py-2 h-full cursor-pointer  ${statusColors[status]}`}
-      >
-        PR #{pr.number}
-      </a>
+        {/* PR number */}
+        <a
+          href={pr.pr_url}
+          target='__blank'
+          rel='noopener noreferrer'
+          className={`ml-auto border px-4 py-2 h-full cursor-pointer  ${statusColors[status]}`}
+        >
+          PR #{pr.number}
+        </a>
       </div>
     </div>
   );
