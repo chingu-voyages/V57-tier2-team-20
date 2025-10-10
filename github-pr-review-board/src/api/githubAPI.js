@@ -1,43 +1,39 @@
-import { timeAgo } from "../utils/dateConverter";
-const TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
+import { timeAgo } from "../utils/dateConverter"
 
 async function fetchAPI(query) {
-  try {
-    const response = await fetch("https://api.github.com/graphql", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query }),
-    });
-
-    if (!response.ok) {
-      const error = new Error(response.statusText);
-      error.status = response.status;
-      throw error;
+    try {
+        // const response = await octokit.request(url);
+        const response = await fetch(
+            `https://github-pr-board-graphql.backend-iaas.workers.dev/?query=${encodeURIComponent(
+                query
+            )}`
+        )
+        console.log("Response: ", response);
+        if (!response.ok) {
+            const error = new Error(response.statusText)
+            error.status = response.status
+            throw error
+        }
+        const data = await response.json()
+        return data
+    } catch (err) {
+        console.error(`Error fetching: `, err)
+        throw err
     }
-
-    const data = await response.json();
-    return data.data.repository.pullRequests.nodes;
-  } catch (err) {
-    console.error("Error fetching:", err);
-    throw err;
-  }
 }
 
 // List of Pull Request
 export async function getPullRequests(org, repo, state) {
-  const states =
-    state === "closed" ? ["CLOSED", "MERGED"] : [state.toUpperCase()];
+    const states =
+        state === "closed" ? ["CLOSED", "MERGED"] : [state.toUpperCase()]
 
-  const query = `
+    const query = `
   query {
     repository(owner: "${org}", name: "${repo}") {
          pullRequests(
       first: 100,
       states: [${states.join(
-        ","
+          ","
       )}], orderBy: {field: CREATED_AT, direction: DESC}) {
         nodes {
           title
@@ -96,46 +92,46 @@ export async function getPullRequests(org, repo, state) {
       }
     }
   }
-`;
+`
 
-  const info = await fetchAPI(query);
+    const info = await fetchAPI(query)
 
-  const prs = info.map((pr) => ({
-    title: pr.title,
-    number: pr.number,
-    pr_url: pr.url,
-    created_at: timeAgo(pr.createdAt),
-    author: pr.author?.login,
-    authorUrl: pr.author?.url,
-    fromBranch: pr.headRefName,
-    fromBranchUrl: `${pr.baseRepository?.url}/tree/${pr.headRefName}`,
-    toBranch: pr.baseRefName,
-    toBranchUrl: `${pr.baseRepository?.url}/tree/${pr.baseRefName}`,
-    orgName: pr.baseRepository?.owner?.login,
-    orgUrl: pr.baseRepository?.owner?.url,
-    repoName: pr.baseRepository?.name,
-    repoUrl: pr.baseRepository?.url,
-    state: pr.state?.toLowerCase() || "",
-    reviewers:
-      pr.reviewRequests?.nodes.map((r) => ({
-        login: r.requestedReviewer?.login,
-        url: r.requestedReviewer?.url,
-      })) || [],
-    activities: [
-      ...(pr.timelineItems.nodes.length < 3
-        ? [{ type: "opened", created_at: timeAgo(pr.createdAt) }]
-        : []),
+    const prs = info.map((pr) => ({
+        title: pr.title,
+        number: pr.number,
+        pr_url: pr.url,
+        created_at: timeAgo(pr.createdAt),
+        author: pr.author?.login,
+        authorUrl: pr.author?.url,
+        fromBranch: pr.headRefName,
+        fromBranchUrl: `${pr.baseRepository?.url}/tree/${pr.headRefName}`,
+        toBranch: pr.baseRefName,
+        toBranchUrl: `${pr.baseRepository?.url}/tree/${pr.baseRefName}`,
+        orgName: pr.baseRepository?.owner?.login,
+        orgUrl: pr.baseRepository?.owner?.url,
+        repoName: pr.baseRepository?.name,
+        repoUrl: pr.baseRepository?.url,
+        state: pr.state?.toLowerCase() || "",
+        reviewers:
+            pr.reviewRequests?.nodes.map((r) => ({
+                login: r.requestedReviewer?.login,
+                url: r.requestedReviewer?.url,
+            })) || [],
+        activities: [
+            ...(pr.timelineItems.nodes.length < 3
+                ? [{ type: "opened", created_at: timeAgo(pr.createdAt) }]
+                : []),
 
-      ...pr.timelineItems.nodes.map((a) => ({
-        type: (a.type === "PullRequestReview" ? a.state : a.type)
-          .replace(/Event$/, "")
-          .replace(/^PullRequest/, "")
-          .replace(/([a-z0-9])([A-Z])|_/g, "$1 $2")
-          .toLowerCase(),
-        created_at: timeAgo(a.created_at || a.commit?.committedDate),
-      })),
-    ],
-  }));
+            ...pr.timelineItems.nodes.map((a) => ({
+                type: (a.type === "PullRequestReview" ? a.state : a.type)
+                    .replace(/Event$/, "")
+                    .replace(/^PullRequest/, "")
+                    .replace(/([a-z0-9])([A-Z])|_/g, "$1 $2")
+                    .toLowerCase(),
+                created_at: timeAgo(a.created_at || a.commit?.committedDate),
+            })),
+        ],
+    }))
 
-  return prs;
+    return prs
 }
