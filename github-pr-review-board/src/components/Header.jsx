@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/Codesandbox.svg";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Header() {
   const today = new Date();
@@ -12,6 +12,27 @@ export default function Header() {
   }) || "Date unavailable";
 
   const [isOpen, setIsOpen] = useState(false);
+    const menuRef = useRef(null); // 👈 ref for the dropdown menu
+
+  // ✅ Close when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <header className="bg-[#141923] bg-[linear-gradient(90deg,rgba(1,255,255,0.05)_0%,rgba(1,255,255,0)_50%,rgba(255,0,128,0.05)_100%)] text-white border-t-8 border-transparent [border-image:linear-gradient(to_right,#00FFFF,#8A2BE2,#FF0080)_1] ">
@@ -32,28 +53,27 @@ export default function Header() {
        
 
         {/* Hamburger button (mobile only) */}
-        <div className="md:hidden flex items-center ">
+        <div className="md:hidden flex items-center border-1 p-1 border-[#01ffff33]">
         {isOpen ? 
             <Icon 
               color="#00ffff" 
-              icon="solar:close-square-outline" 
+              icon="solar:list-up-minimalistic-broken" 
               width="24" 
               height="24" 
               onClick={() => setIsOpen(!isOpen) } 
             /> :
-            <div className="border-1 p-1 border-[#01ffff33]">
                 <Icon  
                   icon="solar:hamburger-menu-broken" 
                   width="24" height="24"
                   onClick={() => setIsOpen(!isOpen) }
                   color="#00FFFF"
                 />
-            </div>
           }
         </div>
 
         {/* Nav links + mobile date (mobile dropdown) */}
         <div
+          ref={menuRef}
           className={`
             ${isOpen ? "flex flex-col items-stretch w-full p-2 " : "hidden md:flex"}
             md:flex-row  md:items-stretch md:p-0 md:m-0
@@ -84,6 +104,7 @@ export default function Header() {
           {/* Nav links (tightly packed) */}
           <NavLink
             to="."
+            onClick={() => setIsOpen(false)}
             className={({ isActive }) =>
               `flex items-center justify-center gap-2 transition-colors duration-200 border-1 border-[#01FFFF33] px-4 py-2 ${
                 isActive ? "bg-[#00FFFF] text-[#1E232D] shadow" : "hover:bg-[#01FFFF]/60 text-white"
@@ -96,6 +117,7 @@ export default function Header() {
 
           <NavLink
             to="open-prs"
+            onClick={() => setIsOpen(false)}
             className={({ isActive }) =>
               `flex items-center justify-center gap-2 transition-colors duration-200 border-1 border-[#01FFFF33] px-4 py-2 ${
                 isActive ? "bg-[#00FFFF] text-[#1E232D] shadow" : "hover:bg-[#01FFFF]/60 text-white"
@@ -108,6 +130,7 @@ export default function Header() {
 
           <NavLink
             to="closed-prs"
+            onClick={() => setIsOpen(false)}
             className={({ isActive }) =>
               `flex items-center justify-center gap-2  transition-colors duration-200 border-1 border-[#01FFFF33] px-4 py-2 ${
                 isActive ? "bg-[#00FFFF] text-[#1E232D] shadow" : "hover:bg-[#01FFFF]/60 text-white"
