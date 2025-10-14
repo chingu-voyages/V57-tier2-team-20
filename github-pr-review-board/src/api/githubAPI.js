@@ -8,7 +8,6 @@ async function fetchAPI(query) {
                 query
             )}`
         )
-        console.log("Response: ", response);
         if (!response.ok) {
             const error = new Error(response.statusText)
             error.status = response.status
@@ -123,12 +122,12 @@ export async function getPullRequests(org, repo, state) {
                 : []),
 
             ...pr.timelineItems.nodes.map((a) => ({
-                type: (a.type === "PullRequestReview" ? a.state : a.type)
+                type: (a?.type === "PullRequestReview" ? a.state : a?.type || "unknown" )
                     .replace(/Event$/, "")
                     .replace(/^PullRequest/, "")
                     .replace(/([a-z0-9])([A-Z])|_/g, "$1 $2")
                     .toLowerCase(),
-                created_at: timeAgo(a.created_at || a.commit?.committedDate),
+                created_at: timeAgo(a?.created_at || a?.commit?.committedDate),
             })),
         ],
     }))
